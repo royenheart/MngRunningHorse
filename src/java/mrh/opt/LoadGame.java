@@ -7,5 +7,11 @@ package mrh.opt;
  *
  * @author RoyenHeart
  */
-public class LoadGame {
+public class LoadGame extends BaseMenu {
+
+    @Override
+    public void show(boolean guiOn) {
+
+    }
+
 }

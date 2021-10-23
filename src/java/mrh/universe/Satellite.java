@@ -10,5 +10,5 @@ package mrh.universe;
  *
  * @author RoyenHeart
  */
-public class satellite {
+public class Satellite {
 }

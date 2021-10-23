@@ -7,4 +7,11 @@ import mrh.universe.*;
  * @author RoyenHeart
  */
 public class MRHCli {
+    public static void main(String[] args) {
+        InGame startMenu = new InGame();
+        LoadGame Gaming = new LoadGame();
+        QuitGame quit = new QuitGame();
+
+
+    }
 }

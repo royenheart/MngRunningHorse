@@ -7,5 +7,10 @@ package mrh.opt;
  *
  * @author RoyenHeart
  */
-public class QuitGame {
+public class QuitGame extends BaseMenu {
+
+    @Override
+    public void show(boolean guiOn) {
+
+    }
 }
