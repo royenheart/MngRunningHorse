@@ -1,4 +1,5 @@
 package mrh.opt;
+import mrh.universe.*;
 
 /**
  * 游戏载入操作
@@ -16,7 +17,7 @@ public class InGame extends BaseMenu {
      * @return 是否初始化成功
      */
     public boolean initial() {
-        return true;
+
     }
 
     @Override

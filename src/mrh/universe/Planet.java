@@ -1,5 +1,7 @@
 package mrh.universe;
 
+import java.util.Objects;
+
 /**
  * 行星对象
  * 包括行星数据：名字、背景故事、行星大小
@@ -27,7 +29,21 @@ public class Planet {
 
     // 国家数据，行星生成后填入
 
+    // 覆写equals方法
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        Planet planet = (Planet) o;
+        return size == planet.size && Objects.equals(name, planet.name) && Objects.equals(desc, planet.desc);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, desc, size);
+    }
 
 }
 
@@ -65,6 +81,22 @@ class Track {
         this.has = has;
         this.used = used;
     }
+
+    public double getDis() {
+        return dis;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public boolean getHas() {
+        return has;
+    }
+
+    public boolean getUsed() {
+        return used;
+    }
 }
 
 /**
@@ -94,4 +126,5 @@ class Country {
     public String getCode() {
         return String.valueOf(this.code);
     }
+
 }

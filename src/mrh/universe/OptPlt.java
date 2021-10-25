@@ -8,6 +8,79 @@ package mrh.universe;
  * @author RoyenHeart
  */
 public class OptPlt {
+
+    public Planet addPlanet() {
+
+    }
+
+    public Satellite addSatellite() {
+
+    }
+
+    /**
+     * 打印出当前行星信息和卫星列表
+     *
+     * @return 行星信息和卫星列表
+     */
+    public String listInfo() {
+
+        StringBuffer info = new StringBuffer("");
+
+        info.append("Now shows the lists of planets and the satellites\n"+
+                    "-----------------The Planet----------------------\n");
+
+
+
+        info.append("----------------The Satellites-------------------\n");
+
+
+
+        info.append("---------------------End-------------------------\n");
+
+        return info.toString();
+    }
+
+    /**
+     * 编辑修改卫星信息
+     *
+     * @return
+     */
+    public boolean editSat() {
+        return true;
+    }
+
+    /**
+     * 删除卫星
+     *
+     * @return
+     */
+    public boolean delSat() {
+        return true;
+    }
+
+    /**
+     * 查找卫星：
+     * 1. 支持模糊查找
+     * 2. 忽略大小写
+     * 3. 根据名称查找卫星
+     * 4. 根据cosparid查找卫星
+     *
+     * @return 查找到的卫星信息(卫星信息覆写toString方法)
+     */
+    public Satellite findSat(String name) {
+        return null;
+    }
+
+    /**
+     * 根据cosparid查找卫星并根据传入参数启用、封锁卫星
+     *
+     * @return
+     */
+    public boolean activateSat(String cosparid, boolean isUse) {
+
+    }
+
+
 }
 
 /**
@@ -15,6 +88,7 @@ public class OptPlt {
  */
 class CheckParams {
 
+    @Deprecated
     public CheckParams() {
 
     }
@@ -45,7 +119,7 @@ class CheckParams {
      * @return 是否正常生成
      */
     public static boolean checkSat() {
-
+        return true;
     }
 
     /**
@@ -58,8 +132,8 @@ class CheckParams {
      *
      * @return 是否正常生成
      */
-    public static boolean checkTra(double dis, double value, boolean has, ) {
-
+    public static boolean checkTra(double dis, double value, boolean has, boolean used) {
+        return true;
     }
 
     /**
@@ -71,7 +145,7 @@ class CheckParams {
      * @return 是否正常生成
      */
     public static boolean checkCty() {
-
+        return true;
     }
 
 }
