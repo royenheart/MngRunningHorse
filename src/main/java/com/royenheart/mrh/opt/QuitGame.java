@@ -1,16 +1,11 @@
 package com.royenheart.mrh.opt;
 
 /**
- * 退出游戏操作
- * 终止目前运行的实例
- * 保存数据至对应文件（行星数据保存至/resources/data对应json文件）
+ * 退出游戏，保存游戏内容
+ * 行星卫星数据保存至resources/data的json文件内
+ * 以行星名字来命名
  *
  * @author RoyenHeart
  */
-public class QuitGame extends BaseMenu {
-
-    @Override
-    public void show() {
-
-    }
+public class QuitGame {
 }

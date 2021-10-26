@@ -26,10 +26,4 @@
 
 ## 项目结构
 
-### 在线预览
-
-<iframe style="display:block;width:100%;height:245px;" src="https://www.processon.com/embed/6170e5137d9c0870405378c4"></iframe>
-
-### 链接
-
 [点击跳转](https://www.processon.com/view/link/61712d1307912946cfcae88a)

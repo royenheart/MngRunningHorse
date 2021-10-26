@@ -1,18 +1,33 @@
 package com.royenheart.mrh.opt;
 
+import com.google.gson.*;
+import com.royenheart.mrh.universe.Planet;
+
+import java.io.File;
+import java.io.FileReader;
+
 /**
- * 游戏内操作
- * 查看行星、卫星状态
- * 编辑、删除、搜索、封锁、启用卫星
- * Cli 命令行不引入改模块
+ * 游戏载入操作
+ * 载入、生成、删除行星
  *
  * @author RoyenHeart
  */
-public class LoadGame extends BaseMenu {
+public class LoadGame {
 
-    @Override
-    public void show() {
-
+    /**
+     * 初始化开始界面
+     * 载入资源文件
+     * 生成选项：载入行星、生成行星、编辑行星
+     * 行星卫星数据保存至resources/data的json文件内
+     * 以行星名字来命名
+     *
+     * @return 是否初始化成功
+     */
+    public boolean initial() {
+        File pltSrc = new File(".");
+        System.out.println(pltSrc.getAbsoluteFile());
+        JsonObject a = new JsonObject();
+        return true;
     }
 
 }

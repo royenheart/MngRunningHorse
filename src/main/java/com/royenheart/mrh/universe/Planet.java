@@ -25,13 +25,13 @@ public class Planet {
     private int size;
 
     /** 行星轨道数据，行星生成后填入 */
-    private ArrayList<Track> tracks = new ArrayList<>();
+    public ArrayList<Track> tracks = new ArrayList<>();
 
     /** 卫星数据，行星生成后填入 */
-    private ArrayList<Satellite> sats = new ArrayList<>();
+    public ArrayList<Satellite> sats = new ArrayList<>();
 
     /** 国家数据，行星生成后填入 */
-    private ArrayList<Country> ctys = new ArrayList<>();
+    public ArrayList<Country> ctys = new ArrayList<>();
 
     /**
      * 判断行星是否相同

@@ -17,7 +17,7 @@ public class Satellite {
     // 卫星数据
 
     private String name;
-    private int track;
+    private Track track;
     private String cosparid;
     private Country belongCty;
     /** 是否正在使用 */
@@ -30,7 +30,7 @@ public class Satellite {
 
     }
 
-    public Satellite(String name, int track, String cosparid, Country belongCty, boolean used, Planet belongPlt) {
+    public Satellite(String name, Track track, String cosparid, Country belongCty, boolean used, Planet belongPlt) {
         this.name = String.valueOf(name);
         this.track = track;
         this.cosparid = String.valueOf(cosparid);
@@ -48,7 +48,12 @@ public class Satellite {
     @Override
     public String toString() {
         StringBuffer satInfo = new StringBuffer("");
-        satInfo.append(String.format("%10s,%10d,%10s,%10s,%10s", name, track, cosparid, belongCty, (used)?"是":"否"));
+        satInfo.append(
+                String.format(
+                        "%10s,%10f,%10f,%10s,%10s,%10s\n",
+                        name, track.getDis(), track.getValue(), cosparid, belongCty, (used)?"是":"否"
+                )
+        );
         return satInfo.toString();
     }
 
@@ -71,7 +76,7 @@ public class Satellite {
         return Objects.hash(cosparid);
     }
 
-    public int getTrack() {
+    public Track getTrack() {
         return track;
     }
 
