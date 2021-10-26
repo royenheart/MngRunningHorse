@@ -1,4 +1,4 @@
-package mrh.universe;
+package com.royenheart.mrh.universe;
 
 /**
  * 生成、载入、保存、操作行星及卫星
@@ -10,11 +10,11 @@ package mrh.universe;
 public class OptPlt {
 
     public Planet addPlanet() {
-
+        return null;
     }
 
     public Satellite addSatellite() {
-
+        return null;
     }
 
     /**
@@ -77,7 +77,7 @@ public class OptPlt {
      * @return
      */
     public boolean activateSat(String cosparid, boolean isUse) {
-
+        return false;
     }
 
 

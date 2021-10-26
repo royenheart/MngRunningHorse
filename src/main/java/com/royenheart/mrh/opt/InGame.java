@@ -1,5 +1,6 @@
-package mrh.opt;
-import mrh.universe.*;
+package com.royenheart.mrh.opt;
+
+import com.google.gson.*;
 
 /**
  * 游戏载入操作
@@ -17,11 +18,22 @@ public class InGame extends BaseMenu {
      * @return 是否初始化成功
      */
     public boolean initial() {
+        return true;
+    }
 
+    /**
+     * 选择行星
+     *
+     * @return 是否选择成功
+     */
+    public boolean cliChoose() {
+        System.out.println("Please choose what planet you want to play");
+
+        return true;
     }
 
     @Override
-    public void show(boolean guiOn) {
+    public void show() {
 
     }
 

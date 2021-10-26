@@ -1,4 +1,4 @@
-package mrh.opt;
+package com.royenheart.mrh.opt;
 
 /**
  * 退出游戏操作
@@ -10,7 +10,7 @@ package mrh.opt;
 public class QuitGame extends BaseMenu {
 
     @Override
-    public void show(boolean guiOn) {
+    public void show() {
 
     }
 }

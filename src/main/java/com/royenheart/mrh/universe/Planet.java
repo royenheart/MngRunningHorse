@@ -1,5 +1,6 @@
-package mrh.universe;
+package com.royenheart.mrh.universe;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -23,15 +24,21 @@ public class Planet {
     private String desc;
     private int size;
 
-    // 行星轨道数据，行星生成后填入
+    /** 行星轨道数据，行星生成后填入 */
+    private ArrayList<Track> tracks = new ArrayList<>();
 
-    // 卫星数据，行星生成后填入
+    /** 卫星数据，行星生成后填入 */
+    private ArrayList<Satellite> sats = new ArrayList<>();
 
-    // 国家数据，行星生成后填入
+    /** 国家数据，行星生成后填入 */
+    private ArrayList<Country> ctys = new ArrayList<>();
 
-    // 覆写equals方法
-
-
+    /**
+     * 判断行星是否相同
+     *
+     * @param o 判断的对象
+     * @return 是否相同
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) { return true; }
@@ -45,6 +52,27 @@ public class Planet {
         return Objects.hash(name, desc, size);
     }
 
+    public String getName() {
+        return String.valueOf(name);
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getDesc() {
+        return String.valueOf(desc);
+    }
+
+    /**
+     * 根据传入的数组位置信息返回对应的轨道对象
+     *
+     * @param pos 需要的轨道对象在数组中的位置
+     * @return 返回对应的轨道对象
+     */
+    public Track getTrackByPos(int pos) throws ArrayIndexOutOfBoundsException {
+        return tracks.get(pos);
+    }
 }
 
 /**
@@ -67,7 +95,6 @@ class Track {
 
     @Deprecated
     public Track() {
-
         this.dis = 1.2;
         this.value = 0;
         this.has = false;
@@ -75,7 +102,6 @@ class Track {
     }
 
     public Track(double dis, double value, boolean has, boolean used) {
-
         this.dis = dis;
         this.value = value;
         this.has = has;
@@ -96,6 +122,22 @@ class Track {
 
     public boolean getUsed() {
         return used;
+    }
+
+    public void setDis(double dis) {
+        this.dis = dis;
+    }
+
+    public void setHas(boolean has) {
+        this.has = has;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }
 
@@ -127,4 +169,11 @@ class Country {
         return String.valueOf(this.code);
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

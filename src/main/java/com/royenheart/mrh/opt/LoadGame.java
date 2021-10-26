@@ -1,4 +1,4 @@
-package mrh.opt;
+package com.royenheart.mrh.opt;
 
 /**
  * 游戏内操作
@@ -11,7 +11,7 @@ package mrh.opt;
 public class LoadGame extends BaseMenu {
 
     @Override
-    public void show(boolean guiOn) {
+    public void show() {
 
     }
 

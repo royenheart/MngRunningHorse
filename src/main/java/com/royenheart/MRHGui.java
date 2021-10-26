@@ -1,5 +1,4 @@
-import mrh.universe.*;
-import mrh.opt.*;
+package com.royenheart;
 
 /**
  * 图形界面方式运行飞马卫星管理
