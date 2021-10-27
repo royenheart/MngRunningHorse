@@ -46,7 +46,7 @@ public class MRHCli {
             command = cliIn.nextLine();
 
             // 判断指令是否处在0至9的范围内
-            while (command.matches(".*[^0-9].*") || Integer.valueOf(command) > 9 || Integer.valueOf(command) < 1) {
+            while (command.isEmpty() || command.matches(".*[^0-9].*") || Integer.valueOf(command) > 9 || Integer.valueOf(command) < 1) {
                 System.out.println("Illegal command! Please insert a number range from 0-9!");
                 command = cliIn.nextLine();
             }
@@ -69,9 +69,12 @@ public class MRHCli {
                     break;
                 case 8:
                     break;
+                case 9:
+                    break;
+                default: break;
             }
 
-        } while (command.matches("9"));
+        } while (!command.matches("9"));
 
         System.exit(0);
     }
