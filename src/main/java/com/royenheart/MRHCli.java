@@ -2,6 +2,7 @@ package com.royenheart;
 
 import com.royenheart.mrh.opt.LoadGame;
 import com.royenheart.mrh.universe.OptPlt;
+import com.royenheart.mrh.universe.Planet;
 
 import java.util.Scanner;
 
@@ -15,8 +16,10 @@ public class MRHCli {
 
         // 载入界面
         LoadGame startMenu = new LoadGame();
+        startMenu.initial();
 
-//        startMenu.initial();
+        // 载入行星
+        Planet plt = startMenu.getPlant();
 
         Scanner cliIn = new Scanner(System.in);
 
@@ -32,13 +35,18 @@ public class MRHCli {
                 .append("   6---显示停运卫星列表\n")
                 .append("   7---按名称查找卫星\n")
                 .append("   8---修改卫星信息\n")
-                .append("   9---退出!\n")
+                .append("   9---添加国家\n")
+                .append("   10---退出!\n")
                 .append("=============================\n")
                 .append("选择: ");
 
         String opInfo = optInfoTmp.toString();
 
+        /**
+         * 操作具体实现
+         */
         OptPlt exec = new OptPlt();
+        exec.setPlt(plt);
 
         String command;
         do {
@@ -46,16 +54,18 @@ public class MRHCli {
             command = cliIn.nextLine();
 
             // 判断指令是否处在0至9的范围内
-            while (command.isEmpty() || command.matches(".*[^0-9].*") || Integer.valueOf(command) > 9 || Integer.valueOf(command) < 1) {
+            while (command.isEmpty() || command.matches(".*[^0-9].*") || Integer.parseInt(command) > 9 || Integer.parseInt(command) < 1) {
                 System.out.println("Illegal command! Please insert a number range from 0-9!");
                 command = cliIn.nextLine();
             }
 
             // 执行相应操作
-            switch (Integer.valueOf(command)) {
+            switch (Integer.parseInt(command)) {
                 case 1:
+                    exec.listInfo();
                     break;
                 case 2:
+                    exec.addSatellite();
                     break;
                 case 3:
                     break;
@@ -70,6 +80,8 @@ public class MRHCli {
                 case 8:
                     break;
                 case 9:
+                    break;
+                case 10:
                     break;
                 default: break;
             }

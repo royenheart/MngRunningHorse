@@ -1,5 +1,7 @@
 package com.royenheart.mrh.universe;
 
+import java.util.Objects;
+
 /**
  * 轨道对象
  */
@@ -57,6 +59,19 @@ public class Track {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        Track track = (Track) o;
+        return Double.compare(track.dis, dis) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dis);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.royenheart.mrh.opt;
 
+import com.royenheart.mrh.universe.Country;
 import com.royenheart.mrh.universe.Planet;
+import com.royenheart.mrh.universe.Satellite;
 import com.royenheart.mrh.universe.Track;
 
 public class checkParam {
@@ -26,16 +28,19 @@ public class checkParam {
                 status = checkSatName(value);
                 break;
             case "dis":
-                status = checkSatName(value);
+                status = checkSatDis(value);
                 break;
             case "value":
                 status = checkSatTVal(value);
                 break;
             case "cosparid":
+                status = checkSatCos(value);
                 break;
             case "belongCty":
+                status = checkSatCty(value);
                 break;
             case "used":
+                status = checkSatUsed(value);
                 break;
             default:
                 status = "err: 传入参数出错";
@@ -49,6 +54,12 @@ public class checkParam {
         return value.isEmpty()?"err: 名字为空,":"ok";
     }
 
+    /**
+     * 检测轨道半径
+     *
+     * @param value 用户填入指令
+     * @return 错误状态
+     */
     private String checkSatDis(String value) {
         double dis;
 
@@ -68,6 +79,12 @@ public class checkParam {
         }
     }
 
+    /**
+     * 检测轨道价值
+     *
+     * @param value 用户填入指令
+     * @return 错误状态
+     */
     private String checkSatTVal(String value) {
         double tVal;
 
@@ -76,7 +93,7 @@ public class checkParam {
         } else {
             tVal = Double.parseDouble(value);
             if (tVal < Track.MIN_VALUE) {
-                return "err: 轨道过小,最小值" + tVal + ",";
+                return "err: 轨道半径过小,最小值" + tVal + ",";
             }
             return "ok";
         }
@@ -89,15 +106,47 @@ public class checkParam {
      * @return 返回错误状态
      */
     private String checkSatCos(String value) {
-
+        if (value.length() != 6) {
+            return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长";
+        } else {
+            if (value.matches("^[A-Z]{2}[0-9]{4}$")) {
+                // 检测是否有cosparid冲突
+                for (Satellite sat : plt.sats) {
+                    if (sat.getCosparid().equals(value)) {
+                        return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + sat.getCosparid() + "\n,";
+                    }
+                }
+                return "ok";
+            } else {
+                return "err: cosparid格式错误，正确格式为两位国家大写编号+4位数字";
+            }
+        }
     }
 
-    private String checkSatCty() {
-
+    /**
+     * 检查所属国家是否合法
+     *
+     * @return 错误状态
+     */
+    private String checkSatCty(String value) {
+        for (Country cty : plt.ctys) {
+            if (cty.getName().equals(value) || cty.getCode().equals(value)) {
+                return "ok";
+            }
+        }
+        return "err: 没有指定的国家，需自行创建,";
     }
 
-    private String checkSatUsed() {
-
+    /**
+     * 检查卫星使用状态是否合法
+     *
+     * @return 错误状态
+     */
+    private String checkSatUsed(String value) {
+        if ("true".equals(value) || "false".equals(value)) {
+            return "ok";
+        }
+        return "err: 使用状态参数错误";
     }
 
 }

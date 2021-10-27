@@ -1,6 +1,5 @@
 package com.royenheart.mrh.universe;
 
-import java.security.Key;
 import com.royenheart.mrh.opt.checkParam;
 import java.util.*;
 
@@ -30,33 +29,69 @@ public class OptPlt {
 
         Scanner text = new Scanner(System.in);
 
-        String name;
-        double dis;
-        double value;
-        String cosparid;
-        Country belongCty;
-        boolean used;
+        String name = null;
+        double dis = 0;
+        double value = 0;
+        String cosparid = null;
+        Country belongCty = null;
+        boolean used = false;
 
-        Map<String, Object> params = new HashMap();
-        params.put("name", name);
-        params.put("track", dis);
-        params.put("value", value);
-        params.put("cosparid", cosparid);
-        params.put("belongCty", belongCty);
-        params.put("used", used);
+        ArrayList<String> params = new ArrayList<>();
+        params.add("name");
+        params.add("track");
+        params.add("value");
+        params.add("cosparid");
+        params.add("belongCty");
+        params.add("used");
 
-        Set keySets = params.keySet();
-        Iterator<String> keys = keySets.iterator();
-
-        while (keys.hasNext()) {
+        /* 遍历键值对 */
+        for (String key : params ) {
             String err = "";
-            String key = keys.next();
+            String keyVal;
+
+            /* 获取合法键值对 */
             do {
                 System.out.print( err + "请填写" + key + ": ");
-                String keyVal = text.nextLine();
+                keyVal = text.nextLine();
+                err = cp.checkSat(key, keyVal);
+            } while (err.contains("err:"));
 
-            } while ()
+            switch (key) {
+                case "name":
+                    name = keyVal;
+                    break;
+                case "dis":
+                    dis = Double.parseDouble(keyVal);
+                    break;
+                case "value":
+                    value = Double.parseDouble(keyVal);
+                    break;
+                case "cosparid":
+                    cosparid = keyVal;
+                    break;
+                case "belongCty":
+                    for (Country cty : plt.ctys) {
+                        if (cty.getCode().equals(keyVal) || cty.getName().equals(keyVal)) {
+                            belongCty = cty;
+                            break;
+                        }
+                    }
+                    break;
+                case "used":
+                    used = Boolean.parseBoolean(keyVal);
+                    break;
+                default:
+                    break;
+            }
         }
+
+        // 添加卫星和对应轨道至行星
+
+        Track newTrack = new Track(dis, value, used);
+        Satellite newSat = new Satellite(name, newTrack, cosparid, belongCty, used, plt);
+
+        plt.sats.add(newSat);
+        plt.tracks.add(newTrack);
 
         return true;
     }
@@ -68,7 +103,7 @@ public class OptPlt {
      */
     public String listInfo() {
 
-        StringBuffer info = new StringBuffer("");
+        StringBuffer info = new StringBuffer();
 
         info.append("Now shows the lists of planets and the satellites\n")
             .append("-----------------The Planet----------------------\n");
@@ -80,7 +115,7 @@ public class OptPlt {
         info.append("----------------The Satellites-------------------\n")
             .append(
                 String.format(
-                        "%10s,%10s,%10s,%10s,%10s\n",
+                        "%10s,%10s,%10s,%10s,%10s,%10s\n",
                         "卫星名字", "卫星轨道半径", "卫星轨道价值", "卫星cosparid", "卫星所属城市", "是否可用"
                 )
         );
@@ -100,6 +135,8 @@ public class OptPlt {
      * @return 是否修改成功
      */
     public boolean editSat() {
+
+
         return true;
     }
 
@@ -134,6 +171,12 @@ public class OptPlt {
         return false;
     }
 
+    /**
+     * 设置当前被操作的行星
+     *
+     * @param plt 行星对象
+     * @return 是否成功
+     */
     public boolean setPlt(Planet plt) {
         if (this.plt == null) {
             this.plt = plt;

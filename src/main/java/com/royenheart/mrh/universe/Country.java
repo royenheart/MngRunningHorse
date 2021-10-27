@@ -2,6 +2,8 @@ package com.royenheart.mrh.universe;
 
 /**
  * 国家对象
+ *
+ * @author RoyenHeart
  */
 public class Country {
 
@@ -12,7 +14,8 @@ public class Country {
 
     @Deprecated
     public Country() {
-
+        this.name = null;
+        this.code = null;
     }
 
     public Country(String name, String code) {
@@ -35,4 +38,6 @@ public class Country {
     public void setCode(String code) {
         this.code = code;
     }
+
+
 }

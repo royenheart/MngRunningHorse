@@ -5,6 +5,7 @@ import com.royenheart.mrh.universe.Planet;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  * 游戏载入操作
@@ -13,6 +14,8 @@ import java.io.FileReader;
  * @author RoyenHeart
  */
 public class LoadGame {
+
+    private ArrayList<Planet> plts;
 
     /**
      * 初始化开始界面
@@ -28,6 +31,10 @@ public class LoadGame {
         System.out.println(pltSrc.getAbsoluteFile());
         JsonObject a = new JsonObject();
         return true;
+    }
+
+    public Planet getPlant() {
+        return null;
     }
 
 }
