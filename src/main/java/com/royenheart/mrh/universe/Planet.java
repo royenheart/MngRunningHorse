@@ -64,14 +64,5 @@ public class Planet {
         return String.valueOf(desc);
     }
 
-    /**
-     * 根据传入的数组位置信息返回对应的轨道对象
-     *
-     * @param pos 需要的轨道对象在数组中的位置
-     * @return 返回对应的轨道对象
-     */
-    public Track getTrackByPos(int pos) throws ArrayIndexOutOfBoundsException {
-        return tracks.get(pos);
-    }
 }
 

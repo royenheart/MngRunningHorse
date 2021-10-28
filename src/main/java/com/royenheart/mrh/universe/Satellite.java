@@ -45,7 +45,8 @@ public class Satellite {
     /**
      * 返回卫星信息
      * <p>
-     *     包括所处轨道、卫星cosparid、所属国家名称、是否在使用
+     *     卫星名字、卫星轨道半径、卫星轨道价值、卫星cosparid、卫星所属国家、卫星是否仍在使用
+     *     规范化字符串"%10s,%10f,%10f,%10s,%10s,%10s\n"
      * </p>
      *
      * @return 卫星信息
@@ -113,9 +114,10 @@ public class Satellite {
     /**
      * 更改卫星使用状态
      *
-     * @param used
+     * @param used 当前使用状态
      */
     public void setUsed(boolean used) {
         this.used = used;
     }
+
 }

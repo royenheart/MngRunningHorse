@@ -27,7 +27,7 @@ public class MRHCli {
 
         StringBuffer optInfoTmp = new StringBuffer("")
                 .append("=============================\n")
-                .append("   1---显示当前活动卫星列表\n")
+                .append("   1---显示当前行星和活动卫星列表\n")
                 .append("   2---注册新卫星\n")
                 .append("   3---删除已有卫星\n")
                 .append("   4---激活卫星\n")
