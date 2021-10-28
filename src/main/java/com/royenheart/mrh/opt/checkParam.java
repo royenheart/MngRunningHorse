@@ -5,6 +5,15 @@ import com.royenheart.mrh.universe.Planet;
 import com.royenheart.mrh.universe.Satellite;
 import com.royenheart.mrh.universe.Track;
 
+/**
+ * 检测错误参数
+ * <p>
+ *     使用相关函数，填入对应待检测的参数
+ *     统一返回
+ * </p>
+ *
+ * @author RoyenHeart
+ */
 public class checkParam {
 
     private Planet plt;
@@ -50,7 +59,7 @@ public class checkParam {
         return status;
     }
 
-    private String checkSatName(String value) {
+    public String checkSatName(String value) {
         return value.isEmpty()?"err: 名字为空,":"ok";
     }
 
@@ -60,7 +69,7 @@ public class checkParam {
      * @param value 用户填入指令
      * @return 错误状态
      */
-    private String checkSatDis(String value) {
+    public String checkSatDis(String value) {
         double dis;
 
         if (value.matches(".*[^0-9].*")) {
@@ -85,7 +94,7 @@ public class checkParam {
      * @param value 用户填入指令
      * @return 错误状态
      */
-    private String checkSatTVal(String value) {
+    public String checkSatTVal(String value) {
         double tVal;
 
         if (value.matches(".*[^0-9].*")) {
@@ -105,7 +114,7 @@ public class checkParam {
      * @param value 传入的编号
      * @return 返回错误状态
      */
-    private String checkSatCos(String value) {
+    public String checkSatCos(String value) {
         if (value.length() != 6) {
             return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长";
         } else {
@@ -128,7 +137,7 @@ public class checkParam {
      *
      * @return 错误状态
      */
-    private String checkSatCty(String value) {
+    public String checkSatCty(String value) {
         for (Country cty : plt.ctys) {
             if (cty.getName().equals(value) || cty.getCode().equals(value)) {
                 return "ok";
@@ -142,7 +151,7 @@ public class checkParam {
      *
      * @return 错误状态
      */
-    private String checkSatUsed(String value) {
+    public String checkSatUsed(String value) {
         if ("true".equals(value) || "false".equals(value)) {
             return "ok";
         }

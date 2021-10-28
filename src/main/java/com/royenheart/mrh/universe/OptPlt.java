@@ -44,6 +44,9 @@ public class OptPlt {
         params.add("belongCty");
         params.add("used");
 
+        System.out.println("现在开始添加卫星，请添加对应的信息");
+        System.out.println("卫星使用状态请填写true、false等真假字符");
+
         /* 遍历键值对 */
         for (String key : params ) {
             String err = "";
