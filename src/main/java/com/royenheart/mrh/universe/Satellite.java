@@ -44,9 +44,11 @@ public class Satellite {
 
     /**
      * 返回卫星信息
-     * 包括所处轨道、卫星cosparid、所属国家名称、是否在使用
+     * <p>
+     *     包括所处轨道、卫星cosparid、所属国家名称、是否在使用
+     * </p>
      *
-     * @return
+     * @return 卫星信息
      */
     @Override
     public String toString() {
@@ -100,11 +102,20 @@ public class Satellite {
     }
 
     /**
-     * 只允许卫星改名，且不允许同个国家内有名字相同的卫星
+     * 卫星改名
      *
      * @param name 需要改成的名字
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * 更改卫星使用状态
+     *
+     * @param used
+     */
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 }
