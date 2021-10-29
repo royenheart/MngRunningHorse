@@ -33,6 +33,12 @@ public class Planet {
     /** 国家数据，行星生成后填入 */
     public ArrayList<Country> ctys = new ArrayList<>();
 
+    public Planet(String name, String desc, int size) {
+        this.name = name;
+        this.desc = desc;
+        this.size = size;
+    }
+
     /**
      * 判断行星是否相同
      *

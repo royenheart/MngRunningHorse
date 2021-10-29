@@ -1,6 +1,7 @@
 package com.royenheart.mrh.universe;
 
-import com.royenheart.mrh.opt.checkParam;
+import com.royenheart.mrh.opt.CheckParam;
+
 import java.util.*;
 
 /**
@@ -18,7 +19,7 @@ public class OptPlt {
     /**
      * 检测函数
      */
-    private checkParam cp = null;
+    private CheckParam cp = null;
 
     /**
      * 卫星查找规则集开启情况
@@ -333,7 +334,8 @@ public class OptPlt {
             }
         }
 
-        return sats.toArray(new Satellite[sats.size()]);
+        // 注意toArray是浅拷贝，之后考虑重构防止破坏封装性
+        return sats.toArray(new Satellite[0]);
     }
 
     /**
@@ -384,7 +386,7 @@ public class OptPlt {
     public boolean setPlt(Planet plt) {
         if (this.plt == null) {
             this.plt = plt;
-            cp = new checkParam(plt);
+            cp = new CheckParam(plt);
             return true;
         } else {
             return false;

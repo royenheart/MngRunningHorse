@@ -28,11 +28,6 @@ public class Satellite {
     /** 所属行星 */
     private Planet belongPlt;
 
-    @Deprecated
-    public Satellite() {
-
-    }
-
     public Satellite(String name, Track track, String cosparid, Country belongCty, boolean used, Planet belongPlt) {
         this.name = String.valueOf(name);
         this.track = track;

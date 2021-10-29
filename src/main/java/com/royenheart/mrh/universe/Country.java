@@ -12,12 +12,6 @@ public class Country {
     private String name;
     private String code;
 
-    @Deprecated
-    public Country() {
-        this.name = null;
-        this.code = null;
-    }
-
     public Country(String name, String code) {
         this.name = String.valueOf(name);
         this.code = String.valueOf(code);

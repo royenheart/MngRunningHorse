@@ -20,13 +20,6 @@ public class Track {
     private boolean used;
     private Satellite sat;
 
-    @Deprecated
-    public Track() {
-        this.dis = 1.2;
-        this.value = 0;
-        this.used = false;
-    }
-
     public Track(double dis, double value, boolean used) {
         this.dis = dis;
         this.value = value;

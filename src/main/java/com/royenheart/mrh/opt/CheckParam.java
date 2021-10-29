@@ -14,11 +14,11 @@ import com.royenheart.mrh.universe.Track;
  *
  * @author RoyenHeart
  */
-public class checkParam {
+public class CheckParam {
 
     private Planet plt;
 
-    public checkParam(Planet plt) {
+    public CheckParam(Planet plt) {
         this.plt = plt;
     }
 
