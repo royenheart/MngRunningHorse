@@ -74,9 +74,10 @@ public class MRHCli {
                     exec.activateSat(false);
                     break;
                 case 6:
+                    exec.findUsedSat();
                     break;
                 case 7:
-                    exec.findSatList();
+                    exec.SatList();
                     break;
                 case 8:
                     exec.editSat();
