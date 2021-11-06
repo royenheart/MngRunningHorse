@@ -1,5 +1,7 @@
 package com.royenheart.mrh.universe;
 
+import java.util.Objects;
+
 /**
  * 国家对象
  *
@@ -33,5 +35,17 @@ public class Country {
         this.code = code;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
+        Country country = (Country) o;
+        return Objects.equals(name, country.name) && Objects.equals(code, country.code);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, code);
+    }
 
 }

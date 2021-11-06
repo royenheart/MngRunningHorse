@@ -98,21 +98,29 @@ public class Satellite {
     }
 
     /**
-     * 卫星改名
-     *
-     * @param name 需要改成的名字
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * 更改卫星使用状态
      *
      * @param used 当前使用状态
      */
     public void setUsed(boolean used) {
         this.used = used;
+    }
+
+    public void setBelongCty(Country belongCty) {
+        this.belongCty = belongCty;
+    }
+
+    public void setBelongPlt(Planet belongPlt) {
+        this.belongPlt = belongPlt;
+    }
+
+    /**
+     * Set Satellite Name
+     *
+     * @param name the Satellite's name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

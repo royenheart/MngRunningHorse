@@ -1,7 +1,7 @@
 package com.royenheart;
 
 import com.royenheart.mrh.opt.LoadGame;
-import com.royenheart.mrh.universe.OptPlt;
+import com.royenheart.mrh.universe.universe;
 import com.royenheart.mrh.universe.Planet;
 
 import java.util.Scanner;
@@ -20,8 +20,6 @@ public class MRHCli {
 
         // 载入行星
         Planet plt = startMenu.getPlant();
-
-        Scanner cliIn = new Scanner(System.in);
 
         // 操作提示
 
@@ -42,21 +40,21 @@ public class MRHCli {
 
         String opInfo = optInfoTmp.toString();
 
-        /**
-         * 操作具体实现
+        /*
+          操作具体实现
          */
-        OptPlt exec = new OptPlt();
+        universe exec = new universe();
         exec.setPlt(plt);
 
         String command;
         do {
             System.out.print(opInfo);
-            command = cliIn.nextLine();
+            command = SysIn.nextLine();
 
             // 判断指令是否处在0至9的范围内
             while (command.isEmpty() || command.matches(".*[^0-9].*") || Integer.parseInt(command) > 9 || Integer.parseInt(command) < 1) {
                 System.out.println("Illegal command! Please insert a number range from 0-9!");
-                command = cliIn.nextLine();
+                command = SysIn.nextLine();
             }
 
             // 执行相应操作
