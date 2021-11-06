@@ -14,6 +14,11 @@ import java.util.Objects;
  */
 public class Satellite {
 
+    // 卫星约束
+
+    public static final int MAX_NAME_LENGTH = 10;
+    public static final int MIN_NAME_LENGTH = 3;
+
     // 卫星数据
 
     private String name;
@@ -98,20 +103,19 @@ public class Satellite {
     }
 
     /**
+     * 更改卫星使用状态，默认取反
+     */
+    public void setUsed() {
+        this.used = !this.used;
+    }
+
+    /**
      * 更改卫星使用状态
      *
      * @param used 当前使用状态
      */
     public void setUsed(boolean used) {
         this.used = used;
-    }
-
-    public void setBelongCty(Country belongCty) {
-        this.belongCty = belongCty;
-    }
-
-    public void setBelongPlt(Planet belongPlt) {
-        this.belongPlt = belongPlt;
     }
 
     /**

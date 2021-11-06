@@ -9,7 +9,8 @@ import com.royenheart.mrh.universe.Track;
  * 检测错误参数
  * <p>
  *     使用相关函数，填入对应待检测的参数
- *     统一返回
+ *     统一返回"err: "错误提醒
+ *     用于Universe类的操作参数检测
  * </p>
  *
  * @author RoyenHeart
@@ -59,8 +60,22 @@ public class CheckParam {
         return status;
     }
 
+    /**
+     * 检查卫星名字
+     *
+     * @param value 待检查的卫星名字
+     * @return 返回错误信息
+     */
     public String checkSatName(String value) {
-        return value.isEmpty()?"err: 名字为空,":"ok";
+        if (value.isEmpty()) {
+            return "err: 名字为空,";
+        } else if (value.length() > Satellite.MAX_NAME_LENGTH) {
+            return "err: 名字过长，请限制于10个字符以内,";
+        } else if (value.length() < Satellite.MIN_NAME_LENGTH) {
+            return "err: 名字过短，请大于等于3个字符,";
+        } else {
+            return "ok!";
+        }
     }
 
     /**
