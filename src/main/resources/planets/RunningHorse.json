@@ -4,44 +4,46 @@
       "name": "RunningHorse",
       "desc": "一个居住着飞马星人的行星，现在它们正在太空开疆拓土，故事自此开始",
       "size": 255
-    },
-    "track": [
-      {"dis": 1.3, "value": 200, "has": true, "used": true, "cosparid": "AA1000"},
-      {"dis": 1.6, "value": 210, "has": true, "used": false, "cosparid": "AB1010"},
-      {"dis": 1.9, "value": 100, "has": true, "used": true, "cosparid": "AB1011"},
-      {"dis": 2.5, "value": 10, "has": false, "used": false, "cosparid": "pub"},
-      {"dis": 2.9, "value": 199, "has": true, "used": true, "cosparid": "CS5631"},
-      {"dis": 5.6, "value": 277, "has": true, "used": true, "cosparid": "NL2307"}
-    ]
+    }
   },
   "satellite": {
     "AA1000": {
       "track": 0,
       "name": "deep sea",
+      "distance": 0.3,
+      "disValue": 33,
       "country": "Fr",
       "status": true
     },
     "AB1010": {
       "track": 1,
       "name": "ocean",
+      "distance": 0.7,
+      "disValue": 67,
       "country": "GD",
       "status": false
     },
     "AB1011": {
       "track": 2,
       "name": "HJ",
+      "distance": 1.3,
+      "disValue": 66,
       "country": "GD",
       "status": true
     },
     "CS5631": {
       "track": 4,
       "name": "explorer",
+      "distance": 2.3,
+      "disValue": 567,
       "country": "bee",
       "status": true
     },
     "NL2307": {
       "track": 5,
       "name": "open mind",
+      "distance": 3.5,
+      "disValue": 10,
       "country": "see",
       "status": true
     }

@@ -1,42 +1,38 @@
 package com.royenheart.mrh.opt;
 
-import com.google.gson.*;
-import com.royenheart.mrh.universe.Planet;
-
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
+import com.google.gson.JsonObject;
+import com.royenheart.mrh.universe.Universe;
 
 /**
  * 游戏载入操作
- * 载入、生成、删除行星
+ * <p>
+ *     由LoadGame统一管理参数检测、mng宇宙
+ *     当结束游戏时将行星信息传达给QuitGame，托付其完成数据的保存（JSON文件的形式）
+ * </p>
  *
  * @author RoyenHeart
  */
 public class LoadGame {
 
-    private ArrayList<Planet> plts;
+    // 单例设计模式，一次游戏只允许一个LoadGame
 
-    /**
-     * 初始化开始界面
-     * <p>
-     *    载入资源文件
-     *    生成选项：载入行星、生成行星、编辑行星
-     *    行星卫星数据保存至resources/data的json文件内
-     *    以行星名字来命名
-     * </p>
-     *
-     * @return 是否初始化成功
-     */
-    public boolean initial() {
-        File pltSrc = new File(".");
-        System.out.println(pltSrc.getAbsoluteFile());
-        JsonObject a = new JsonObject();
-        return true;
+    private static LoadGame ld = new LoadGame();
+    private LoadGame() {}
+    public LoadGame getLd() {
+        return ld;
     }
 
-    public Planet getPlant() {
-        return null;
+    public static Universe mng = Universe.getMng();
+    public static CheckParam cp = CheckParam.getCp();
+
+    /**
+     * 初始化已有的mng宇宙数据，包括所有的行星，国家，卫星
+     * <p>
+     *     同时进行行星选择，删除
+     * </p>
+     */
+    public void initial() {
+        JsonObject file = new JsonObject();
     }
 
 }

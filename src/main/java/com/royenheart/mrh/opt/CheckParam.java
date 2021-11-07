@@ -1,26 +1,26 @@
 package com.royenheart.mrh.opt;
 
 import com.royenheart.mrh.universe.Country;
-import com.royenheart.mrh.universe.Planet;
 import com.royenheart.mrh.universe.Satellite;
-import com.royenheart.mrh.universe.Track;
 
 /**
  * 检测错误参数
  * <p>
  *     使用相关函数，填入对应待检测的参数
  *     统一返回"err: "错误提醒
- *     用于Universe类的操作参数检测
+ *     用于GamingOpt类的操作错误提醒
  * </p>
  *
  * @author RoyenHeart
  */
 public class CheckParam {
 
-    private Planet plt;
+    // 单例设计模式，只允许生成一个CheckParam类，并托付给LoadGame
 
-    public CheckParam(Planet plt) {
-        this.plt = plt;
+    private static CheckParam cp = new CheckParam();
+    private CheckParam() {}
+    public static CheckParam getCp() {
+        return cp;
     }
 
     /**
@@ -91,12 +91,14 @@ public class CheckParam {
             return "err: 非法轨道编号,";
         } else {
             dis = Double.parseDouble(value);
-            if (dis < Track.MIN_DIS || dis > Track.MAX_DIS) {
-                return "err: 轨道不符合范围: [" + Track.MIN_DIS + "," + Track.MAX_DIS + "],";
+            if (dis < Satellite.MIN_DIS || dis > Satellite.MAX_DIS) {
+                return "err: 轨道不符合范围: [" + Satellite.MIN_DIS + "," + Satellite.MAX_DIS + "],";
             }
-            for (Track t : plt.tracks) {
-                if (Math.abs(dis - t.getDis()) < 0.2) {
-                    return "err: 与" + t.getSat().getName() + "号" + "相距太近,";
+            for (Country cty : LoadGame.mng.getPlt().ctys) {
+                for (Satellite e : cty.sats) {
+                    if (Math.abs(dis - e.getDistance()) < 0.2) {
+                        return "err: 与" + e.getName() + "号" + "相距太近,";
+                    }
                 }
             }
             return "ok";
@@ -116,7 +118,7 @@ public class CheckParam {
             return "err: 非法数值,";
         } else {
             tVal = Double.parseDouble(value);
-            if (tVal < Track.MIN_VALUE) {
+            if (tVal < Satellite.MIN_VALUE) {
                 return "err: 轨道半径过小,最小值" + tVal + ",";
             }
             return "ok";
@@ -135,9 +137,11 @@ public class CheckParam {
         } else {
             if (value.matches("^[A-Z]{2}[0-9]{4}$")) {
                 // 检测是否有cosparid冲突
-                for (Satellite sat : plt.sats) {
-                    if (sat.getCosparid().equals(value)) {
-                        return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + sat.getCosparid() + "\n,";
+                for (Country cty : LoadGame.mng.getPlt().ctys) {
+                    for (Satellite sat : cty.sats) {
+                        if (sat.getCosparid().equals(value)) {
+                            return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + sat.getCosparid() + "\n,";
+                        }
                     }
                 }
                 return "ok";
@@ -153,7 +157,7 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkSatCty(String value) {
-        for (Country cty : plt.ctys) {
+        for (Country cty : LoadGame.mng.getPlt().ctys) {
             if (cty.getName().equals(value) || cty.getCode().equals(value)) {
                 return "ok";
             }

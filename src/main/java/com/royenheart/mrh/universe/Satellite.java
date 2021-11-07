@@ -4,15 +4,24 @@ import java.util.Objects;
 
 /**
  * 卫星对象
- * 包括卫星数据：
- * 卫星所处轨道、卫星cosparid、卫星所属国家、卫星状态、卫星名字、卫星所属行星
+ * <p>
+ *     包括卫星数据：
+ *     卫星名字、卫星cosparid、卫星轨道距离、卫星轨道价值、卫星状态、卫星所属国家
  *
- * 需实现方法：
- * 合法生成卫星、修改卫星状态并同步至行星轨道状态
+ *     需实现方法：
+ *     合法生成卫星、修改卫星状态并同步至行星轨道状态
+ * </p>
  *
  * @author RoyenHeart
  */
+
 public class Satellite {
+
+    // 卫星轨道约束
+
+    public static final double MIN_DIS = 1.2;
+    public static final double MAX_DIS = Double.MAX_VALUE;
+    public static final double MIN_VALUE = 0;
 
     // 卫星约束
 
@@ -23,23 +32,22 @@ public class Satellite {
 
     private String name;
     private String cosparid;
-    private Country belongCty;
+    private double distance;
+    /**
+     * 所处轨道价值
+     */
+    private double disValue;
     /** 是否正在使用 */
     private boolean used;
-    /**
-     * 所处轨道
-     */
-    private Track track;
-    /** 所属行星 */
-    private Planet belongPlt;
+    private Country belongCty;
 
-    public Satellite(String name, Track track, String cosparid, Country belongCty, boolean used, Planet belongPlt) {
+    public Satellite(String name, String cosparid, double distance, double disValue, boolean used, Country cty) {
         this.name = String.valueOf(name);
-        this.track = track;
         this.cosparid = String.valueOf(cosparid);
-        this.belongCty = belongCty;
+        this.distance = distance;
+        this.disValue = disValue;
         this.used = used;
-        this.belongCty = belongCty;
+        this.belongCty = cty;
     }
 
     /**
@@ -53,14 +61,11 @@ public class Satellite {
      */
     @Override
     public String toString() {
-        StringBuffer satInfo = new StringBuffer("");
-        satInfo.append(
+        return "" +
                 String.format(
                         "%10s,%10f,%10f,%10s,%10s,%10s\n",
-                        name, track.getDis(), track.getValue(), cosparid, belongCty, (used)?"是":"否"
-                )
-        );
-        return satInfo.toString();
+                        name, distance, disValue, cosparid, belongCty.getName(), (used) ? "是" : "否"
+                );
     }
 
     /**
@@ -82,16 +87,20 @@ public class Satellite {
         return Objects.hash(cosparid);
     }
 
-    public Track getTrack() {
-        return track;
-    }
-
     public String getCosparid() {
         return String.valueOf(cosparid);
     }
 
-    public String getBelongCty() {
-        return belongCty.getName();
+    public Country getBelongCty() {
+        return belongCty;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public double getDisValue() {
+        return disValue;
     }
 
     public boolean getUsed() {

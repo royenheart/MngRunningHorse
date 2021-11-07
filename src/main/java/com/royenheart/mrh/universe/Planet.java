@@ -5,9 +5,10 @@ import java.util.Objects;
 
 /**
  * 行星对象
- * 包括行星数据：名字、背景故事、行星大小
- * 行星轨道数据：各个轨道距离、经济价值、占用情况
- * 卫星数据：对卫星对象的引用
+ * <p>
+ *     包括行星数据：
+ *     名字、背景故事、行星大小
+ * </p>
  *
  * @author RoyenHeart
  */
@@ -24,13 +25,7 @@ public class Planet {
     private String desc;
     private int size;
 
-    /** 行星轨道数据，行星生成后填入 */
-    public ArrayList<Track> tracks = new ArrayList<>();
-
-    /** 卫星数据，行星生成后填入 */
-    public ArrayList<Satellite> sats = new ArrayList<>();
-
-    /** 国家数据，行星生成后填入 */
+    /** 国家数据，行星生成后录入 */
     public ArrayList<Country> ctys = new ArrayList<>();
 
     public Planet(String name, String desc, int size) {
@@ -68,6 +63,13 @@ public class Planet {
 
     public String getDesc() {
         return String.valueOf(desc);
+    }
+
+    /**
+     * 添加国家
+     */
+    public void addCty() {
+
     }
 
 }
