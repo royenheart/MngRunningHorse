@@ -1,6 +1,9 @@
 package com.royenheart;
 
 import com.royenheart.mrh.opt.GamingOpt;
+import com.royenheart.mrh.opt.LoadGame;
+
+import java.io.IOException;
 
 /**
  * 命令行方式运行飞马卫星管理程序
@@ -10,8 +13,15 @@ import com.royenheart.mrh.opt.GamingOpt;
 public class MRHCli {
     public static void main(String[] args) {
 
-        // 操作提示
+        // 初始化数据
 
+        try {
+            LoadGame.getLd().initial();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 操作提示
         String opInfo = "" +
                 "=============================\n" +
                 "   1---显示当前行星和活动卫星列表\n" +
@@ -27,6 +37,7 @@ public class MRHCli {
                 "=============================\n" +
                 "选择: ";
 
+
         // 生成宇宙操作
 
         GamingOpt exec = new GamingOpt();
@@ -37,7 +48,8 @@ public class MRHCli {
             command = SysIn.nextLine();
 
             // 判断指令是否处在0至10的范围内
-            while (command.isEmpty() || command.matches(".*[^0-9].*") || Integer.parseInt(command) > 10 || Integer.parseInt(command) < 1) {
+            while (command.isEmpty() || command.matches(".*[^0-9].*") ||
+                    Integer.parseInt(command) > 10 || Integer.parseInt(command) < 1) {
                 System.out.println("Illegal command! Please insert a number range from 0-9!");
                 command = SysIn.nextLine();
             }

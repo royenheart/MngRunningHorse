@@ -41,13 +41,16 @@ public class Satellite {
     private boolean used;
     private Country belongCty;
 
-    public Satellite(String name, String cosparid, double distance, double disValue, boolean used, Country cty) {
+    public Satellite(String name, String cosparid, double distance, double disValue, boolean used) {
         this.name = String.valueOf(name);
         this.cosparid = String.valueOf(cosparid);
         this.distance = distance;
         this.disValue = disValue;
         this.used = used;
-        this.belongCty = cty;
+    }
+
+    public void setCty(Country belongCty) {
+        this.belongCty = belongCty;
     }
 
     /**
@@ -63,8 +66,8 @@ public class Satellite {
     public String toString() {
         return "" +
                 String.format(
-                        "%10s,%10f,%10f,%10s,%10s,%10s\n",
-                        name, distance, disValue, cosparid, belongCty.getName(), (used) ? "是" : "否"
+                        "%-16s%-16.2f%-16.2f%-16s%-16s%-16s\n",
+                        name, distance, disValue, cosparid, belongCty.getName(), (used) ? "yes" : "no"
                 );
     }
 

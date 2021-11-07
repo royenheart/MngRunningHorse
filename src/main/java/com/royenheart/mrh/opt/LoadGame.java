@@ -1,7 +1,17 @@
 package com.royenheart.mrh.opt;
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.royenheart.mrh.universe.Country;
+import com.royenheart.mrh.universe.Planet;
+import com.royenheart.mrh.universe.Satellite;
 import com.royenheart.mrh.universe.Universe;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * 游戏载入操作
@@ -18,7 +28,7 @@ public class LoadGame {
 
     private static LoadGame ld = new LoadGame();
     private LoadGame() {}
-    public LoadGame getLd() {
+    public static LoadGame getLd() {
         return ld;
     }
 
@@ -31,8 +41,27 @@ public class LoadGame {
      *     同时进行行星选择，删除
      * </p>
      */
-    public void initial() {
-        JsonObject file = new JsonObject();
+    public void initial() throws IOException {
+        Gson gson = new Gson();
+
+        String fileName = "src/main/resources/planets/RunningHorse.json";
+        Path path = new File(fileName).toPath();
+
+        Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+
+        Planet plt = gson.fromJson(reader, Planet.class);
+
+        /*
+          设置国家所属行星和卫星所属国家
+         */
+        for (Country cty : plt.ctys) {
+            cty.setBelong(plt);
+            for (Satellite e : cty.sats) {
+                e.setCty(cty);
+            }
+        }
+
+        mng.addPlt(plt);
     }
 
 }

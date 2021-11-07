@@ -26,12 +26,13 @@ public class Planet {
     private int size;
 
     /** 国家数据，行星生成后录入 */
-    public ArrayList<Country> ctys = new ArrayList<>();
+    public ArrayList<Country> ctys;
 
-    public Planet(String name, String desc, int size) {
+    public Planet(String name, String desc, int size, ArrayList<Country> ctys) {
         this.name = name;
         this.desc = desc;
         this.size = size;
+        this.ctys = ctys;
     }
 
     /**
@@ -63,6 +64,14 @@ public class Planet {
 
     public String getDesc() {
         return String.valueOf(desc);
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "名字: %s\n简介: %s\n尺寸: %s\n",
+                this.name,this.desc,this.size
+        );
     }
 
     /**

@@ -111,7 +111,7 @@ public class GamingOpt {
 
         ArrayList<String> params = new ArrayList<>();
         params.add("name");
-        params.add("track");
+        params.add("distance");
         params.add("value");
         params.add("cosparid");
         params.add("belongCty");
@@ -163,9 +163,10 @@ public class GamingOpt {
 
         // 添加卫星至行星
 
-        Satellite newSat = new Satellite(name, cosparid, dis, value, used, belongCty);
-
         assert belongCty != null;
+        Satellite newSat = new Satellite(name, cosparid, dis, value, used);
+        newSat.setCty(belongCty);
+
         belongCty.sats.add(newSat);
 
         return true;
@@ -292,7 +293,7 @@ public class GamingOpt {
      *
      * @return 行星信息和卫星列表
      */
-    public String listInfo() {
+    public boolean listInfo() {
         StringBuffer info = new StringBuffer();
 
         info.append("Now shows the lists of planets and the satellites\n");
@@ -302,7 +303,9 @@ public class GamingOpt {
 
         info.append("---------------------End-------------------------\n");
 
-        return info.toString();
+        System.out.println(info);
+
+        return true;
     }
 
     /**
@@ -313,9 +316,7 @@ public class GamingOpt {
     public void listPlt(StringBuffer info) {
         info.append("-----------------The Planet----------------------\n");
 
-        info.append("The name: ").append(LoadGame.mng.getPlt().getName())
-            .append("The size: ").append(LoadGame.mng.getPlt().getSize())
-            .append("The background: \n").append(LoadGame.mng.getPlt().getDesc());
+        info.append(LoadGame.mng.getPlt());
     }
 
     /**
@@ -327,20 +328,20 @@ public class GamingOpt {
         info.append("----------------The Satellites-------------------\n")
             .append(
                     String.format(
-                            "序号%10s,%10s,%10s,%10s,%10s,%10s\n",
-                            "卫星名字", "卫星轨道半径", "卫星轨道价值", "卫星cosparid", "卫星所属城市", "是否可用"
+                            "%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n",
+                            "No.", "Name", "Distance", "Value", "Cosparid", "Country", "IsUsed"
                     )
             );
 
         int i = 0;
         for (Country cty : LoadGame.mng.getPlt().ctys) {
             for (Satellite sat : cty.sats) {
-                info.append(++i).append(sat.toString());
+                info.append(String.format("%-16s", ++i)).append(sat.toString());
             }
         }
 
         if (i == 0) {
-            info.append("未查找到指定的卫星");
+            info.append("未查找到卫星");
         }
     }
 
@@ -357,14 +358,18 @@ public class GamingOpt {
         info.append("----------------The Satellites-------------------\n")
             .append(
                     String.format(
-                            "%10s,%10s,%10s,%10s,%10s,%10s\n",
-                            "卫星名字", "卫星轨道半径", "卫星轨道价值", "卫星cosparid", "卫星所属城市", "是否可用"
+                            "%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n",
+                            "No.", "Name", "Distance", "Value", "Cosparid", "Country", "IsUsed"
                     )
             );
 
         int i = 0;
         for (Satellite sat : sats) {
-            info.append(++i).append(sat.toString());
+            info.append(String.format("%-16s", ++i)).append(sat.toString());
+        }
+
+        if (i == 0) {
+            info.append("未查询到指定卫星");
         }
 
     }
@@ -495,12 +500,14 @@ public class GamingOpt {
     public boolean addCountry() {
         String name, code;
 
-        System.out.println("新增国家操作请填写国家名和编号");
+        System.out.println("新增国家操作请填写国家名和编号（分行填写）");
 
-        name = SysIn.next();
-        code = SysIn.next();
+        name = SysIn.nextLine();
+        code = SysIn.nextLine();
 
-        LoadGame.mng.getPlt().ctys.add(new Country(name, code, LoadGame.mng.getPlt()));
+        Country newCty = new Country(name, code, new ArrayList<>());
+        newCty.setBelong(LoadGame.mng.getPlt());
+        LoadGame.mng.getPlt().ctys.add(newCty);
 
         return true;
     }

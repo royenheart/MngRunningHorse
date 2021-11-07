@@ -1,65 +1,66 @@
 {
-  "planet": {
-    "data": {
-      "name": "RunningHorse",
-      "desc": "一个居住着飞马星人的行星，现在它们正在太空开疆拓土，故事自此开始",
-      "size": 255
+  "name": "RunningHorse",
+  "desc": "一个居住着飞马星人的行星，现在它们正在太空开疆拓土，故事自此开始",
+  "size": 255,
+  "ctys": [
+    {
+      "name": "Fr",
+      "code": "AA",
+      "sats": [
+        {
+          "name": "deep sea",
+          "cosparid": "AA1000",
+          "distance": 1.3,
+          "disValue": 33,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "GD",
+      "code": "AB",
+      "sats": [
+        {
+          "name": "ocean",
+          "cosparid": "AB1010",
+          "distance": 2.3,
+          "disValue": 67,
+          "used": false
+        },
+        {
+          "name": "HJ",
+          "cosparid": "AB1011",
+          "distance": 2.7,
+          "disValue": 66,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "bee",
+      "code": "CS",
+      "sats": [
+        {
+          "name": "explorer",
+          "cosparid": "CS5631",
+          "distance": 3.1,
+          "disValue": 567,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "see",
+      "code": "NL",
+      "sats": [
+        {
+          "name": "open mind",
+          "cosparid": "NL2307",
+          "distance": 3.7,
+          "disValue": 10,
+          "used": true
+        }
+      ]
     }
-  },
-  "satellite": {
-    "AA1000": {
-      "track": 0,
-      "name": "deep sea",
-      "distance": 0.3,
-      "disValue": 33,
-      "country": "Fr",
-      "status": true
-    },
-    "AB1010": {
-      "track": 1,
-      "name": "ocean",
-      "distance": 0.7,
-      "disValue": 67,
-      "country": "GD",
-      "status": false
-    },
-    "AB1011": {
-      "track": 2,
-      "name": "HJ",
-      "distance": 1.3,
-      "disValue": 66,
-      "country": "GD",
-      "status": true
-    },
-    "CS5631": {
-      "track": 4,
-      "name": "explorer",
-      "distance": 2.3,
-      "disValue": 567,
-      "country": "bee",
-      "status": true
-    },
-    "NL2307": {
-      "track": 5,
-      "name": "open mind",
-      "distance": 3.5,
-      "disValue": 10,
-      "country": "see",
-      "status": true
-    }
-  },
-  "country": {
-    "Fr": {
-      "code": "AA"
-    },
-    "GD": {
-      "code": "AB"
-    },
-    "bee": {
-      "code": "CS"
-    },
-    "see": {
-      "code": "NL"
-    }
-  }
+  ]
 }

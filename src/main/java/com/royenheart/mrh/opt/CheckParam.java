@@ -37,7 +37,7 @@ public class CheckParam {
             case "name":
                 status = checkSatName(value);
                 break;
-            case "dis":
+            case "distance":
                 status = checkSatDis(value);
                 break;
             case "value":
@@ -53,7 +53,7 @@ public class CheckParam {
                 status = checkSatUsed(value);
                 break;
             default:
-                status = "err: 传入参数出错";
+                status = "err: 传入参数出错，";
                 break;
         }
 
@@ -68,11 +68,11 @@ public class CheckParam {
      */
     public String checkSatName(String value) {
         if (value.isEmpty()) {
-            return "err: 名字为空,";
+            return "err: 名字为空，";
         } else if (value.length() > Satellite.MAX_NAME_LENGTH) {
-            return "err: 名字过长，请限制于10个字符以内,";
+            return "err: 名字过长，请限制于10个字符以内，";
         } else if (value.length() < Satellite.MIN_NAME_LENGTH) {
-            return "err: 名字过短，请大于等于3个字符,";
+            return "err: 名字过短，请大于等于3个字符，";
         } else {
             return "ok!";
         }
@@ -87,21 +87,21 @@ public class CheckParam {
     public String checkSatDis(String value) {
         double dis;
 
-        if (value.matches(".*[^0-9].*")) {
-            return "err: 非法轨道编号,";
+        if (!value.matches("([1-9][0-9]+)|([0-9])|([0-9].[0-9]+)|([1-9][0-9]+.[0-9]+)")) {
+            return "err: 非法轨道半径，";
         } else {
             dis = Double.parseDouble(value);
             if (dis < Satellite.MIN_DIS || dis > Satellite.MAX_DIS) {
-                return "err: 轨道不符合范围: [" + Satellite.MIN_DIS + "," + Satellite.MAX_DIS + "],";
+                return "err: 轨道不符合范围: [" + Satellite.MIN_DIS + "," + Satellite.MAX_DIS + "]，";
             }
             for (Country cty : LoadGame.mng.getPlt().ctys) {
                 for (Satellite e : cty.sats) {
                     if (Math.abs(dis - e.getDistance()) < 0.2) {
-                        return "err: 与" + e.getName() + "号" + "相距太近,";
+                        return "err: 与" + e.getName() + "号" + "[轨道距离：" + e.getDistance() + "]" + "相距太近，";
                     }
                 }
             }
-            return "ok";
+            return "ok!";
         }
     }
 
@@ -115,13 +115,13 @@ public class CheckParam {
         double tVal;
 
         if (value.matches(".*[^0-9].*")) {
-            return "err: 非法数值,";
+            return "err: 非法数值，";
         } else {
             tVal = Double.parseDouble(value);
             if (tVal < Satellite.MIN_VALUE) {
-                return "err: 轨道半径过小,最小值" + tVal + ",";
+                return "err: 轨道半径过小,最小值" + tVal + "，";
             }
-            return "ok";
+            return "ok!";
         }
     }
 
@@ -133,20 +133,20 @@ public class CheckParam {
      */
     public String checkSatCos(String value) {
         if (value.length() != 6) {
-            return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长";
+            return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长，";
         } else {
             if (value.matches("^[A-Z]{2}[0-9]{4}$")) {
                 // 检测是否有cosparid冲突
                 for (Country cty : LoadGame.mng.getPlt().ctys) {
                     for (Satellite sat : cty.sats) {
                         if (sat.getCosparid().equals(value)) {
-                            return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + sat.getCosparid() + "\n,";
+                            return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + sat.getCosparid() + "\n";
                         }
                     }
                 }
-                return "ok";
+                return "ok!";
             } else {
-                return "err: cosparid格式错误，正确格式为两位国家大写编号+4位数字";
+                return "err: cosparid格式错误，正确格式为两位国家大写编号+4位数字，";
             }
         }
     }
@@ -159,10 +159,10 @@ public class CheckParam {
     public String checkSatCty(String value) {
         for (Country cty : LoadGame.mng.getPlt().ctys) {
             if (cty.getName().equals(value) || cty.getCode().equals(value)) {
-                return "ok";
+                return "ok!";
             }
         }
-        return "err: 没有指定的国家，需自行创建,";
+        return "err: 没有指定的国家，需自行创建，";
     }
 
     /**
@@ -172,9 +172,9 @@ public class CheckParam {
      */
     public String checkSatUsed(String value) {
         if ("true".equals(value) || "false".equals(value)) {
-            return "ok";
+            return "ok!";
         }
-        return "err: 使用状态参数错误";
+        return "err: 使用状态参数错误，";
     }
 
 }

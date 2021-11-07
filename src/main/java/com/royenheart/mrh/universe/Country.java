@@ -28,12 +28,16 @@ public class Country {
     /**
      * 卫星数据列表
      */
-    public ArrayList<Satellite> sats = new ArrayList<>();
+    public ArrayList<Satellite> sats;
 
-    public Country(String name, String code, Planet plt) {
+    public Country(String name, String code, ArrayList<Satellite> sats) {
         this.name = String.valueOf(name);
         this.code = String.valueOf(code);
-        this.belongPlt = plt;
+        this.sats = sats;
+    }
+
+    public void setBelong(Planet belongPlt) {
+        this.belongPlt = belongPlt;
     }
 
     public String getName() {

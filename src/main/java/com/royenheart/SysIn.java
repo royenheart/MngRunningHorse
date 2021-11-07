@@ -7,11 +7,7 @@ import java.util.Scanner;
  */
 public class SysIn {
 
-    private static Scanner SysIn;
-
-    private static void getSysIn() {
-        SysIn = new Scanner(System.in);
-    }
+    private static Scanner SysIn = new Scanner(System.in);
 
     private SysIn(){}
 
