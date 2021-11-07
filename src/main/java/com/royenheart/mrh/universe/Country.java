@@ -1,22 +1,39 @@
 package com.royenheart.mrh.universe;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * 国家对象
+ * <p>
+ *     包含国家数据：
+ *     名字，编号，所属行星
+ * </p>
  *
  * @author RoyenHeart
  */
 public class Country {
 
+    // 国家约束
+
+    public static double MAX_ECO = 999999;
+    public static double MIN_ECO = 1000;
+
     // 国家数据
 
     private String name;
     private String code;
+    private Planet belongPlt;
 
-    public Country(String name, String code) {
+    /**
+     * 卫星数据列表
+     */
+    public ArrayList<Satellite> sats = new ArrayList<>();
+
+    public Country(String name, String code, Planet plt) {
         this.name = String.valueOf(name);
         this.code = String.valueOf(code);
+        this.belongPlt = plt;
     }
 
     public String getName() {
@@ -27,12 +44,23 @@ public class Country {
         return String.valueOf(this.code);
     }
 
+    public Planet getBelongPlt() {
+        return belongPlt;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    /**
+     * 添加卫星
+     */
+    public void addSat() {
+
     }
 
     @Override

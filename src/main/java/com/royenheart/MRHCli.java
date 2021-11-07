@@ -1,9 +1,6 @@
 package com.royenheart;
 
-import com.royenheart.mrh.opt.LoadGame;
-import com.royenheart.mrh.universe.Satellite;
-import com.royenheart.mrh.universe.Universe;
-import com.royenheart.mrh.universe.Planet;
+import com.royenheart.mrh.opt.GamingOpt;
 
 /**
  * 命令行方式运行飞马卫星管理程序
@@ -13,37 +10,26 @@ import com.royenheart.mrh.universe.Planet;
 public class MRHCli {
     public static void main(String[] args) {
 
-        // 载入界面
-        LoadGame startMenu = new LoadGame();
-        startMenu.initial();
-
-        // 载入行星
-        Planet plt = startMenu.getPlant();
-
         // 操作提示
 
-        StringBuffer optInfoTmp = new StringBuffer("")
-                .append("=============================\n")
-                .append("   1---显示当前行星和活动卫星列表\n")
-                .append("   2---注册新卫星\n")
-                .append("   3---删除已有卫星\n")
-                .append("   4---激活卫星\n")
-                .append("   5---封锁卫星\n")
-                .append("   6---显示停运卫星列表\n")
-                .append("   7---查找卫星\n")
-                .append("   8---修改卫星信息\n")
-                .append("   9---添加国家\n")
-                .append("   10---退出!\n")
-                .append("=============================\n")
-                .append("选择: ");
+        String opInfo = "" +
+                "=============================\n" +
+                "   1---显示当前行星和活动卫星列表\n" +
+                "   2---注册新卫星\n" +
+                "   3---删除已有卫星\n" +
+                "   4---激活卫星\n" +
+                "   5---封锁卫星\n" +
+                "   6---显示停运卫星列表\n" +
+                "   7---查找卫星\n" +
+                "   8---修改卫星信息\n" +
+                "   9---添加国家\n" +
+                "   10---退出!\n" +
+                "=============================\n" +
+                "选择: ";
 
-        String opInfo = optInfoTmp.toString();
+        // 生成宇宙操作
 
-        /*
-          操作具体实现
-         */
-        Universe exec = new Universe();
-        exec.setPlt(plt);
+        GamingOpt exec = new GamingOpt();
 
         String command;
         do {
@@ -83,6 +69,7 @@ public class MRHCli {
                     exec.editSat();
                     break;
                 case 9:
+                    exec.addCountry();
                     break;
                 default: break;
             }
