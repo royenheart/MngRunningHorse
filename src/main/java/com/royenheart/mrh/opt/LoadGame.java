@@ -26,14 +26,14 @@ public class LoadGame {
 
     // 单例设计模式，一次游戏只允许一个LoadGame
 
-    private static LoadGame ld = new LoadGame();
+    private static final LoadGame LD = new LoadGame();
     private LoadGame() {}
     public static LoadGame getLd() {
-        return ld;
+        return LD;
     }
 
-    public static Universe mng = Universe.getMng();
-    public static CheckParam cp = CheckParam.getCp();
+    public static final Universe MNG = Universe.getMng();
+    public static final CheckParam CP = CheckParam.getCp();
 
     /**
      * 初始化已有的mng宇宙数据，包括所有的行星，国家，卫星
@@ -61,7 +61,7 @@ public class LoadGame {
             }
         }
 
-        mng.addPlt(plt);
+        MNG.addPlt(plt);
     }
 
 }

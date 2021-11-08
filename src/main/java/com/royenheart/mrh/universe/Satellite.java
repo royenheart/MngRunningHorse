@@ -1,5 +1,6 @@
 package com.royenheart.mrh.universe;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -32,7 +33,7 @@ public class Satellite {
 
     private String name;
     private String cosparid;
-    private double distance;
+    private BigDecimal distance;
     /**
      * 所处轨道价值
      */
@@ -44,7 +45,7 @@ public class Satellite {
     public Satellite(String name, String cosparid, double distance, double disValue, boolean used) {
         this.name = String.valueOf(name);
         this.cosparid = String.valueOf(cosparid);
-        this.distance = distance;
+        this.distance = BigDecimal.valueOf(distance);
         this.disValue = disValue;
         this.used = used;
     }
@@ -72,7 +73,7 @@ public class Satellite {
     }
 
     /**
-     * 比较两个卫星是否相同（编号不一样就行）
+     * 比较两个卫星是否相同（cosparid编号不一样就行）
      *
      * @param o 比较的对象
      * @return 是否相同
@@ -98,7 +99,7 @@ public class Satellite {
         return belongCty;
     }
 
-    public double getDistance() {
+    public BigDecimal getDistance() {
         return distance;
     }
 

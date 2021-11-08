@@ -3,6 +3,8 @@ package com.royenheart.mrh.opt;
 import com.royenheart.mrh.universe.Country;
 import com.royenheart.mrh.universe.Satellite;
 
+import java.math.BigDecimal;
+
 /**
  * 检测错误参数
  * <p>
@@ -17,7 +19,7 @@ public class CheckParam {
 
     // 单例设计模式，只允许生成一个CheckParam类，并托付给LoadGame
 
-    private static CheckParam cp = new CheckParam();
+    private static final CheckParam cp = new CheckParam();
     private CheckParam() {}
     public static CheckParam getCp() {
         return cp;
@@ -40,14 +42,11 @@ public class CheckParam {
             case "distance":
                 status = checkSatDis(value);
                 break;
-            case "value":
-                status = checkSatTVal(value);
+            case "track_value":
+                status = checkSatTruckValue(value);
                 break;
             case "cosparid":
                 status = checkSatCos(value);
-                break;
-            case "belongCty":
-                status = checkSatCty(value);
                 break;
             case "used":
                 status = checkSatUsed(value);
@@ -70,9 +69,9 @@ public class CheckParam {
         if (value.isEmpty()) {
             return "err: 名字为空，";
         } else if (value.length() > Satellite.MAX_NAME_LENGTH) {
-            return "err: 名字过长，请限制于10个字符以内，";
+            return "err: 名字过长，请限制于" + Satellite.MAX_NAME_LENGTH + "个字符以内，";
         } else if (value.length() < Satellite.MIN_NAME_LENGTH) {
-            return "err: 名字过短，请大于等于3个字符，";
+            return "err: 名字过短，请大于等于" + Satellite.MIN_NAME_LENGTH + "个字符，";
         } else {
             return "ok!";
         }
@@ -94,9 +93,9 @@ public class CheckParam {
             if (dis < Satellite.MIN_DIS || dis > Satellite.MAX_DIS) {
                 return "err: 轨道不符合范围: [" + Satellite.MIN_DIS + "," + Satellite.MAX_DIS + "]，";
             }
-            for (Country cty : LoadGame.mng.getPlt().ctys) {
+            for (Country cty : LoadGame.MNG.getPlt().ctys) {
                 for (Satellite e : cty.sats) {
-                    if (Math.abs(dis - e.getDistance()) < 0.2) {
+                    if (e.getDistance().subtract(BigDecimal.valueOf(dis)).abs().compareTo(BigDecimal.valueOf(0.2)) < 0) {
                         return "err: 与" + e.getName() + "号" + "[轨道距离：" + e.getDistance() + "]" + "相距太近，";
                     }
                 }
@@ -111,10 +110,10 @@ public class CheckParam {
      * @param value 用户填入指令
      * @return 错误状态
      */
-    public String checkSatTVal(String value) {
+    public String checkSatTruckValue(String value) {
         double tVal;
 
-        if (value.matches(".*[^0-9].*")) {
+        if (!value.matches("([1-9][0-9]+)|([0-9])|([0-9].[0-9]+)|([1-9][0-9]+.[0-9]+)")) {
             return "err: 非法数值，";
         } else {
             tVal = Double.parseDouble(value);
@@ -135,34 +134,27 @@ public class CheckParam {
         if (value.length() != 6) {
             return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长，";
         } else {
-            if (value.matches("^[A-Z]{2}[0-9]{4}$")) {
-                // 检测是否有cosparid冲突
-                for (Country cty : LoadGame.mng.getPlt().ctys) {
+            if (value.matches("^[A-Za-z]{2}[0-9]{4}$")) {
+                // 检测是否有cosparid冲突并判断是否属于现存的某个国家
+                boolean isBelong = false;
+                for (Country cty : LoadGame.MNG.getPlt().ctys) {
+                    if (cty.getCode().equals(value.toUpperCase().substring(0,2))) {
+                        isBelong = true;
+                    }
                     for (Satellite sat : cty.sats) {
-                        if (sat.getCosparid().equals(value)) {
-                            return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + sat.getCosparid() + "\n";
+                        if (sat.getCosparid().equals(value.toUpperCase())) {
+                            return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + ":" + sat.getCosparid() + "\n";
                         }
                     }
                 }
+                if (!isBelong) {
+                    return "err: cosparid前两位国家编号未找到对应国家，请退出当前操作建立新国家后再来，";
+                }
                 return "ok!";
             } else {
-                return "err: cosparid格式错误，正确格式为两位国家大写编号+4位数字，";
+                return "err: cosparid格式错误，正确格式为两位国家编号(英文字母)+4位数字，";
             }
         }
-    }
-
-    /**
-     * 检查所属国家是否合法
-     *
-     * @return 错误状态
-     */
-    public String checkSatCty(String value) {
-        for (Country cty : LoadGame.mng.getPlt().ctys) {
-            if (cty.getName().equals(value) || cty.getCode().equals(value)) {
-                return "ok!";
-            }
-        }
-        return "err: 没有指定的国家，需自行创建，";
     }
 
     /**
@@ -175,6 +167,32 @@ public class CheckParam {
             return "ok!";
         }
         return "err: 使用状态参数错误，";
+    }
+
+    /**
+     * 检查添加国家操作是否合法
+     *
+     * @param name 国家名字
+     * @param code 国家编号
+     * @return 错误状态
+     */
+    public String checkCtyAdd(String name, String code) {
+        if (name.isEmpty() | code.isEmpty()) {
+            return "err: 国家名字或编号为空，";
+        } else if (name.length() > Country.MAX_NAME_LENGTH) {
+            return "err: 国家名字过长，请限制于" + Country.MAX_NAME_LENGTH + "个字符以内，";
+        } else if (name.length() < Country.MIN_NAME_LENGTH) {
+            return "err: 国家名字过短，请大于等于" + Country.MIN_NAME_LENGTH + "个字符，";
+        } else if (!code.matches("[A-Za-z]{2}")) {
+            return "err: 国家编号格式错误，应为两位英文字母组成的编号，";
+        } else {
+            for (Country cty : LoadGame.MNG.getPlt().ctys) {
+                if (cty.getCode().equals(code.toUpperCase())) {
+                    return "err: 编号冲突，与" + cty.getCode() + "发生碰撞，";
+                }
+            }
+            return "ok!";
+        }
     }
 
 }

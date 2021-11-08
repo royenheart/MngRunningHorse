@@ -27,12 +27,12 @@ public class MRHCli {
                 "   1---显示当前行星和活动卫星列表\n" +
                 "   2---注册新卫星\n" +
                 "   3---删除已有卫星\n" +
-                "   4---激活卫星\n" +
-                "   5---封锁卫星\n" +
-                "   6---显示停运卫星列表\n" +
-                "   7---查找卫星\n" +
-                "   8---修改卫星信息\n" +
-                "   9---添加国家\n" +
+                "   4---激活、封锁卫星\n" +
+                "   5---显示停运卫星列表\n" +
+                "   6---查找卫星\n" +
+                "   7---修改卫星信息\n" +
+                "   8---添加国家\n" +
+                "   9---显示当前国家列表\n" +
                 "   10---退出!\n" +
                 "=============================\n" +
                 "选择: ";
@@ -46,47 +46,59 @@ public class MRHCli {
         do {
             System.out.print(opInfo);
             command = SysIn.nextLine();
+            boolean isOptSuccess = false;
 
-            // 判断指令是否处在0至10的范围内
+            // 判断指令是否处在1至10的范围内
             while (command.isEmpty() || command.matches(".*[^0-9].*") ||
                     Integer.parseInt(command) > 10 || Integer.parseInt(command) < 1) {
-                System.out.println("Illegal command! Please insert a number range from 0-9!");
+                System.out.println("非法操作! 请键入数字，范围为 1-10!");
                 command = SysIn.nextLine();
             }
 
             // 执行相应操作
             switch (Integer.parseInt(command)) {
                 case 1:
-                    exec.listInfo();
+                    isOptSuccess = exec.listInfo();
                     break;
                 case 2:
-                    exec.addSatellite();
+                    isOptSuccess = exec.addSatellite();
                     break;
                 case 3:
-                    exec.delSat();
+                    isOptSuccess = exec.delSat();
                     break;
                 case 4:
-                    exec.activateSat(true);
+                    isOptSuccess = exec.activateSat();
                     break;
                 case 5:
-                    exec.activateSat(false);
+                    isOptSuccess = exec.findUsedSat();
                     break;
                 case 6:
-                    exec.findUsedSat();
+                    isOptSuccess = exec.SatList();
                     break;
                 case 7:
-                    exec.SatList();
+                    isOptSuccess = exec.editSat();
                     break;
                 case 8:
-                    exec.editSat();
+                    isOptSuccess = exec.addCountry();
                     break;
                 case 9:
-                    exec.addCountry();
+                    isOptSuccess = exec.listInfoCty();
+                    break;
+                case 10:
+                    isOptSuccess = true;
                     break;
                 default: break;
             }
 
+            if (isOptSuccess) {
+                System.out.println("操作成功");
+            } else {
+                System.out.println("操作失败");
+            }
+
         } while (!command.matches("10"));
+
+        System.out.println("程序正在退出中，请勿关闭程序");
 
         System.exit(0);
     }

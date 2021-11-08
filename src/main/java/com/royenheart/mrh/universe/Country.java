@@ -16,6 +16,8 @@ public class Country {
 
     // 国家约束
 
+    public static int MAX_NAME_LENGTH = 12;
+    public static int MIN_NAME_LENGTH = 1;
     public static double MAX_ECO = 999999;
     public static double MIN_ECO = 1000;
 
@@ -58,6 +60,15 @@ public class Country {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public String toString() {
+        return "" +
+                String.format(
+                        "国家名字:%s,国家编号:%s\n",
+                        name, code
+                );
     }
 
     /**
