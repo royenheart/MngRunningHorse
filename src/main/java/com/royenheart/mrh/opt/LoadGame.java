@@ -44,24 +44,30 @@ public class LoadGame {
     public void initial() throws IOException {
         Gson gson = new Gson();
 
-        String fileName = "src/main/resources/planets/RunningHorse.json";
-        Path path = new File(fileName).toPath();
+        String path = "src/main/resources/planets";
+        File file = new File(path);
+        File[] fs = file.listFiles();
 
-        Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+        assert fs != null;
+        for (File f : fs) {
+            if (f.isFile() && f.getName().matches(".*.json")) {
+                Path fp = f.toPath();
+                Reader reader = Files.newBufferedReader(fp, StandardCharsets.UTF_8);
+                Planet plt = gson.fromJson(reader, Planet.class);
 
-        Planet plt = gson.fromJson(reader, Planet.class);
+                /*
+                  设置国家所属行星和卫星所属国家
+                 */
+                for (Country cty : plt.ctys) {
+                    cty.setBelong(plt);
+                    for (Satellite e : cty.sats) {
+                        e.setCty(cty);
+                    }
+                }
 
-        /*
-          设置国家所属行星和卫星所属国家
-         */
-        for (Country cty : plt.ctys) {
-            cty.setBelong(plt);
-            for (Satellite e : cty.sats) {
-                e.setCty(cty);
+                MNG.addPlt(plt);
             }
         }
-
-        MNG.addPlt(plt);
     }
 
 }

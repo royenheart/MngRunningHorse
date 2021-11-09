@@ -1,5 +1,7 @@
 package com.royenheart.mrh.universe;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -23,13 +25,16 @@ public class Country {
 
     // 国家数据
 
+    @Expose
     private String name;
+    @Expose
     private String code;
     private Planet belongPlt;
 
     /**
      * 卫星数据列表
      */
+    @Expose()
     public ArrayList<Satellite> sats;
 
     public Country(String name, String code, ArrayList<Satellite> sats) {

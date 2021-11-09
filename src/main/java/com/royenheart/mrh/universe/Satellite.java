@@ -1,5 +1,7 @@
 package com.royenheart.mrh.universe;
 
+import com.google.gson.annotations.Expose;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -31,14 +33,19 @@ public class Satellite {
 
     // 卫星数据
 
+    @Expose
     private String name;
+    @Expose
     private String cosparid;
+    @Expose
     private BigDecimal distance;
     /**
      * 所处轨道价值
      */
+    @Expose
     private double disValue;
     /** 是否正在使用 */
+    @Expose
     private boolean used;
     private Country belongCty;
 

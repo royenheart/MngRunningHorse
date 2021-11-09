@@ -1,5 +1,7 @@
 package com.royenheart.mrh.universe;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -21,11 +23,15 @@ public class Planet {
 
     // 行星数据
 
+    @Expose
     private String name;
+    @Expose
     private String desc;
+    @Expose
     private int size;
 
     /** 国家数据，行星生成后录入 */
+    @Expose
     public ArrayList<Country> ctys;
 
     public Planet(String name, String desc, int size, ArrayList<Country> ctys) {

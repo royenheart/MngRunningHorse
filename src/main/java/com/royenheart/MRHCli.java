@@ -2,6 +2,7 @@ package com.royenheart;
 
 import com.royenheart.mrh.opt.GamingOpt;
 import com.royenheart.mrh.opt.LoadGame;
+import com.royenheart.mrh.opt.QuitGame;
 
 import java.io.IOException;
 
@@ -13,12 +14,23 @@ import java.io.IOException;
 public class MRHCli {
     public static void main(String[] args) {
 
-        // 初始化数据
+        String command;
 
+        // 初始化数据
         try {
             LoadGame.getLd().initial();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        // 选择、删除、生成行星
+        System.out.println(LoadGame.MNG.listPlts());
+        System.out.println("请键入序号选择此次游戏的行星");
+        command = SysIn.nextLine();
+        // 判断指令是否为数字的范围内
+        while (command.isEmpty() || command.matches(".*[^0-9].*") || !LoadGame.MNG.setPlt(Integer.parseInt(command))) {
+            System.out.println("非法操作! 请键入数字编号或者键入正确的范围!");
+            command = SysIn.nextLine();
         }
 
         // 操作提示
@@ -42,7 +54,6 @@ public class MRHCli {
 
         GamingOpt exec = new GamingOpt();
 
-        String command;
         do {
             System.out.print(opInfo);
             command = SysIn.nextLine();
@@ -99,6 +110,7 @@ public class MRHCli {
         } while (!command.matches("10"));
 
         System.out.println("程序正在退出中，请勿关闭程序");
+        QuitGame.getQG().store();
 
         System.exit(0);
     }

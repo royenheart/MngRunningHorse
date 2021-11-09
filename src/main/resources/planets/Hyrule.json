@@ -1,0 +1,66 @@
+{
+  "name": "Hyrule",
+  "desc": "Save The World",
+  "size": 310,
+  "ctys": [
+    {
+      "name": "Mifa",
+      "code": "MI",
+      "sats": [
+        {
+          "name": "Ocean",
+          "cosparid": "MI1000",
+          "distance": 1.3,
+          "disValue": 33,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "LINK",
+      "code": "LI",
+      "sats": [
+        {
+          "name": "Zelda",
+          "cosparid": "LI1010",
+          "distance": 2.3,
+          "disValue": 67,
+          "used": false
+        },
+        {
+          "name": "Ganon",
+          "cosparid": "LI1011",
+          "distance": 2.7,
+          "disValue": 66,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "Horse",
+      "code": "HO",
+      "sats": [
+        {
+          "name": "Explorer",
+          "cosparid": "HO5631",
+          "distance": 3.1,
+          "disValue": 567,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "MAN",
+      "code": "MA",
+      "sats": [
+        {
+          "name": "NewLand",
+          "cosparid": "MA2307",
+          "distance": 3.7,
+          "disValue": 10,
+          "used": true
+        }
+      ]
+    }
+  ]
+}

@@ -11,7 +11,14 @@
           "name": "deep sea",
           "cosparid": "AA1000",
           "distance": 1.3,
-          "disValue": 33,
+          "disValue": 33.0,
+          "used": true
+        },
+        {
+          "name": "yyds",
+          "cosparid": "AA1001",
+          "distance": 1.5,
+          "disValue": 4533.0,
           "used": true
         }
       ]
@@ -24,14 +31,14 @@
           "name": "ocean",
           "cosparid": "AB1010",
           "distance": 2.3,
-          "disValue": 67,
+          "disValue": 67.0,
           "used": false
         },
         {
           "name": "HJ",
           "cosparid": "AB1011",
           "distance": 2.7,
-          "disValue": 66,
+          "disValue": 66.0,
           "used": true
         }
       ]
@@ -44,7 +51,7 @@
           "name": "explorer",
           "cosparid": "CS5631",
           "distance": 3.1,
-          "disValue": 567,
+          "disValue": 567.0,
           "used": true
         }
       ]
@@ -57,7 +64,7 @@
           "name": "open mind",
           "cosparid": "NL2307",
           "distance": 3.7,
-          "disValue": 10,
+          "disValue": 10.0,
           "used": true
         }
       ]
