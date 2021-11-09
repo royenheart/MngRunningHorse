@@ -25,7 +25,6 @@ import java.nio.file.Path;
 public class LoadGame {
 
     // 单例设计模式，一次游戏只允许一个LoadGame
-
     private static final LoadGame LD = new LoadGame();
     private LoadGame() {}
     public static LoadGame getLd() {
@@ -54,16 +53,6 @@ public class LoadGame {
                 Path fp = f.toPath();
                 Reader reader = Files.newBufferedReader(fp, StandardCharsets.UTF_8);
                 Planet plt = gson.fromJson(reader, Planet.class);
-
-                /*
-                  设置国家所属行星和卫星所属国家
-                 */
-                for (Country cty : plt.ctys) {
-                    cty.setBelong(plt);
-                    for (Satellite e : cty.sats) {
-                        e.setCty(cty);
-                    }
-                }
 
                 MNG.addPlt(plt);
             }

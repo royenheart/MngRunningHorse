@@ -16,11 +16,6 @@ import java.util.Objects;
  */
 public class Planet {
 
-    // 行星约束
-
-    public static final int MIN_SIZE = 64;
-    public static final int MAX_SIZE = 1024;
-
     // 行星数据
 
     @Expose
@@ -32,7 +27,7 @@ public class Planet {
 
     /** 国家数据，行星生成后录入 */
     @Expose
-    public ArrayList<Country> ctys;
+    private final ArrayList<Country> ctys;
 
     public Planet(String name, String desc, int size, ArrayList<Country> ctys) {
         this.name = name;
@@ -64,14 +59,6 @@ public class Planet {
         return String.valueOf(name);
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public String getDesc() {
-        return String.valueOf(desc);
-    }
-
     @Override
     public String toString() {
         return String.format(
@@ -80,11 +67,20 @@ public class Planet {
         );
     }
 
-    /**
-     * 添加国家
-     */
-    public void addCty() {
+    public ArrayList<Country> getCtys() {
+        return ctys;
+    }
 
+    /**
+     * 查询当前存在的卫星数量
+     * @return 卫星数量
+     */
+    public int getAmountsSat() {
+        int i = 0;
+        for (Country cty : ctys) {
+            i += cty.getAmountsSat();
+        }
+        return i;
     }
 
 }

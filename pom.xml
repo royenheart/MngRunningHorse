@@ -32,7 +32,7 @@
 <!--                <configuration>-->
 <!--                    <archive>-->
 <!--                        <manifest>-->
-<!--                            <mainClass>com.royenheart.MRHCli</mainClass>-->
+<!--                            <mainClass>com.royenheart.MrhCli</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
 <!--                </configuration>-->

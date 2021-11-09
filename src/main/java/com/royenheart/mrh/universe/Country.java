@@ -20,8 +20,6 @@ public class Country {
 
     public static int MAX_NAME_LENGTH = 12;
     public static int MIN_NAME_LENGTH = 1;
-    public static double MAX_ECO = 999999;
-    public static double MIN_ECO = 1000;
 
     // 国家数据
 
@@ -29,22 +27,17 @@ public class Country {
     private String name;
     @Expose
     private String code;
-    private Planet belongPlt;
 
     /**
      * 卫星数据列表
      */
     @Expose()
-    public ArrayList<Satellite> sats;
+    private final ArrayList<Satellite> sats;
 
     public Country(String name, String code, ArrayList<Satellite> sats) {
         this.name = String.valueOf(name);
         this.code = String.valueOf(code);
         this.sats = sats;
-    }
-
-    public void setBelong(Planet belongPlt) {
-        this.belongPlt = belongPlt;
     }
 
     public String getName() {
@@ -53,10 +46,6 @@ public class Country {
 
     public String getCode() {
         return String.valueOf(this.code);
-    }
-
-    public Planet getBelongPlt() {
-        return belongPlt;
     }
 
     public void setName(String name) {
@@ -76,11 +65,8 @@ public class Country {
                 );
     }
 
-    /**
-     * 添加卫星
-     */
-    public void addSat() {
-
+    public ArrayList<Satellite> getSats() {
+        return sats;
     }
 
     @Override
@@ -94,6 +80,15 @@ public class Country {
     @Override
     public int hashCode() {
         return Objects.hash(name, code);
+    }
+
+    /**
+     * 获取当前国家卫星数量
+     *
+     * @return 卫星数量
+     */
+    public int getAmountsSat() {
+        return sats.size();
     }
 
 }

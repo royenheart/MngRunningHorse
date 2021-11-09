@@ -3,6 +3,7 @@ package com.royenheart;
 import com.royenheart.mrh.opt.GamingOpt;
 import com.royenheart.mrh.opt.LoadGame;
 import com.royenheart.mrh.opt.QuitGame;
+import com.royenheart.mrh.universe.Universe;
 
 import java.io.IOException;
 
@@ -11,10 +12,10 @@ import java.io.IOException;
  *
  * @author RoyenHeart
  */
-public class MRHCli {
+public class MrhCli {
     public static void main(String[] args) {
-
         String command;
+        GamingOpt exec = GamingOpt.getExec();
 
         // 初始化数据
         try {
@@ -28,7 +29,8 @@ public class MRHCli {
         System.out.println("请键入序号选择此次游戏的行星");
         command = SysIn.nextLine();
         // 判断指令是否为数字的范围内
-        while (command.isEmpty() || command.matches(".*[^0-9].*") || !LoadGame.MNG.setPlt(Integer.parseInt(command))) {
+        while (command.isEmpty() || command.matches(".*[^0-9].*") ||
+                !LoadGame.MNG.setPlt(Integer.parseInt(command))) {
             System.out.println("非法操作! 请键入数字编号或者键入正确的范围!");
             command = SysIn.nextLine();
         }
@@ -45,24 +47,25 @@ public class MRHCli {
                 "   7---修改卫星信息\n" +
                 "   8---添加国家\n" +
                 "   9---显示当前国家列表\n" +
-                "   10---退出!\n" +
+                "   10---卫星搜索配置\n" +
+                "   11---退出!\n" +
                 "=============================\n" +
                 "选择: ";
 
 
         // 生成宇宙操作
 
-        GamingOpt exec = new GamingOpt();
+        System.out.println("欢迎来到" + Universe.getName() + "元宇宙!");
 
         do {
             System.out.print(opInfo);
             command = SysIn.nextLine();
             boolean isOptSuccess = false;
 
-            // 判断指令是否处在1至10的范围内
+            // 判断指令是否处在1至11的范围内
             while (command.isEmpty() || command.matches(".*[^0-9].*") ||
-                    Integer.parseInt(command) > 10 || Integer.parseInt(command) < 1) {
-                System.out.println("非法操作! 请键入数字，范围为 1-10!");
+                    Integer.parseInt(command) > 11 || Integer.parseInt(command) < 1) {
+                System.out.println("非法操作! 请键入数字，范围为 1-11!");
                 command = SysIn.nextLine();
             }
 
@@ -96,6 +99,9 @@ public class MRHCli {
                     isOptSuccess = exec.listInfoCty();
                     break;
                 case 10:
+                    isOptSuccess = exec.setRules();
+                    break;
+                case 11:
                     isOptSuccess = true;
                     break;
                 default: break;
@@ -107,10 +113,14 @@ public class MRHCli {
                 System.out.println("操作失败");
             }
 
-        } while (!command.matches("10"));
+        } while (!command.matches("11"));
 
         System.out.println("程序正在退出中，请勿关闭程序");
-        QuitGame.getQG().store();
+        if (QuitGame.getQg().store()) {
+            System.out.println("已保存文件!");
+        } else {
+            System.out.println("保存文件出错!");
+        }
 
         System.exit(0);
     }

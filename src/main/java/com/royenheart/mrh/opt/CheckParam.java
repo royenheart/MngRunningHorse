@@ -17,12 +17,14 @@ import java.math.BigDecimal;
  */
 public class CheckParam {
 
-    // 单例设计模式，只允许生成一个CheckParam类，并托付给LoadGame
+    private static final String[] trues = {"true","yes","真","是","y","ok"};
+    private static final String[] falses = {"false","no","假","否","n"};
 
-    private static final CheckParam cp = new CheckParam();
+    // 单例设计模式，只允许生成一个CheckParam类，并托付给LoadGame
+    private static final CheckParam CP = new CheckParam();
     private CheckParam() {}
     public static CheckParam getCp() {
-        return cp;
+        return CP;
     }
 
     /**
@@ -93,8 +95,8 @@ public class CheckParam {
             if (dis < Satellite.MIN_DIS || dis > Satellite.MAX_DIS) {
                 return "err: 轨道不符合范围: [" + Satellite.MIN_DIS + "," + Satellite.MAX_DIS + "]，";
             }
-            for (Country cty : LoadGame.MNG.getPlt().ctys) {
-                for (Satellite e : cty.sats) {
+            for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
+                for (Satellite e : cty.getSats()) {
                     if (e.getDistance().subtract(BigDecimal.valueOf(dis)).abs().compareTo(BigDecimal.valueOf(0.2)) < 0) {
                         return "err: 与" + e.getName() + "号" + "[轨道距离：" + e.getDistance() + "]" + "相距太近，";
                     }
@@ -137,11 +139,11 @@ public class CheckParam {
             if (value.matches("^[A-Za-z]{2}[0-9]{4}$")) {
                 // 检测是否有cosparid冲突并判断是否属于现存的某个国家
                 boolean isBelong = false;
-                for (Country cty : LoadGame.MNG.getPlt().ctys) {
+                for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
                     if (cty.getCode().equals(value.toUpperCase().substring(0,2))) {
                         isBelong = true;
                     }
-                    for (Satellite sat : cty.sats) {
+                    for (Satellite sat : cty.getSats()) {
                         if (sat.getCosparid().equals(value.toUpperCase())) {
                             return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + ":" + sat.getCosparid() + "\n";
                         }
@@ -163,10 +165,7 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkSatUsed(String value) {
-        if ("true".equals(value) || "false".equals(value)) {
-            return "ok!";
-        }
-        return "err: 使用状态参数错误，";
+        return checkTrueFalse(value);
     }
 
     /**
@@ -186,7 +185,7 @@ public class CheckParam {
         } else if (!code.matches("[A-Za-z]{2}")) {
             return "err: 国家编号格式错误，应为两位英文字母组成的编号，";
         } else {
-            for (Country cty : LoadGame.MNG.getPlt().ctys) {
+            for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
                 if (cty.getCode().equals(code.toUpperCase())) {
                     return "err: 编号冲突，与" + cty.getCode() + "发生碰撞，";
                 }
@@ -194,5 +193,42 @@ public class CheckParam {
             return "ok!";
         }
     }
+
+    /**
+     * 判断输入是否为表示真假
+     *
+     * @param param 输入值
+     * @return 错误状态
+     */
+    public String checkTrueFalse(String param) {
+        int i;
+        for (i = 0;i < trues.length;i++) {
+            if (trues[i].equals(param.toLowerCase())) {
+                return "ok!";
+            }
+        }
+        for (i = 0;i < falses.length;i++) {
+            if (falses[i].equals(param.toLowerCase())) {
+                return "ok!";
+            }
+        }
+        return "err: 输入字符不表示真假,";
+    }
+
+    public boolean getTrueFalseFromIn(String param) {
+        int i;
+        for (i = 0;i < trues.length;i++) {
+            if (trues[i].equals(param.toLowerCase())) {
+                return true;
+            }
+        }
+        for (i = 0;i < falses.length;i++) {
+            if (falses[i].equals(param.toLowerCase())) {
+                return false;
+            }
+        }
+        return false;
+    }
+
 
 }

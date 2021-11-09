@@ -1,6 +1,7 @@
 package com.royenheart.mrh.universe;
 
 import com.google.gson.annotations.Expose;
+import com.royenheart.mrh.opt.LoadGame;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -47,7 +48,6 @@ public class Satellite {
     /** 是否正在使用 */
     @Expose
     private boolean used;
-    private Country belongCty;
 
     public Satellite(String name, String cosparid, double distance, double disValue, boolean used) {
         this.name = String.valueOf(name);
@@ -55,10 +55,6 @@ public class Satellite {
         this.distance = BigDecimal.valueOf(distance);
         this.disValue = disValue;
         this.used = used;
-    }
-
-    public void setCty(Country belongCty) {
-        this.belongCty = belongCty;
     }
 
     /**
@@ -75,7 +71,7 @@ public class Satellite {
         return "" +
                 String.format(
                         "%-16s%-16.2f%-16.2f%-16s%-16s%-16s\n",
-                        name, distance, disValue, cosparid, belongCty.getName(), (used) ? "yes" : "no"
+                        name, distance, disValue, cosparid, inWhichCountry().getName(), (used) ? "yes" : "no"
                 );
     }
 
@@ -102,16 +98,8 @@ public class Satellite {
         return String.valueOf(cosparid);
     }
 
-    public Country getBelongCty() {
-        return belongCty;
-    }
-
     public BigDecimal getDistance() {
         return distance;
-    }
-
-    public double getDisValue() {
-        return disValue;
     }
 
     public boolean getUsed() {
@@ -145,6 +133,15 @@ public class Satellite {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Country inWhichCountry() {
+        for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
+            if (cty.getSats().contains(this)) {
+                return cty;
+            }
+        }
+        return null;
     }
 
 }

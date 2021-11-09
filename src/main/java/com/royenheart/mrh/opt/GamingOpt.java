@@ -7,6 +7,7 @@ import com.royenheart.mrh.universe.Satellite;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * 宇宙操作
@@ -15,45 +16,80 @@ import java.util.Hashtable;
  */
 public class GamingOpt {
 
-    /**
-     * 卫星查找规则集开启情况
-     */
-    private BitSet rulesOn = new BitSet();
-
-    /**
-     * 卫星查找规则集索引
-     */
-    private Hashtable<String, Integer> rules = new Hashtable<>();
-
-    public GamingOpt() {
+    // 单例设计模式，只允许一个GamingOpt类操作
+    private static final GamingOpt EXEC = new GamingOpt();
+    private GamingOpt() {
         // 初始化规则集
-
         rules.put("name", 0);
         rules.put("cosparid", 1);
         rules.put("caseLockOn", 2);
         rules.put("fuzzySearchOn", 3);
-        try {
-            // 默认按照名称查询
-            rulesOn.set(rules.get("name"));
-            rulesOn.clear(rules.get("cosparid"));
-            rulesOn.set(rules.get("caseLockOn"));
-            rulesOn.set(rules.get("fuzzySearchOn"));
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
-        }
+        rulesOn.set(rules.get("name"), true);
+        rulesOn.set(rules.get("cosparid"), false);
+        rulesOn.set(rules.get("caseLockOn"));
+        rulesOn.set(rules.get("fuzzySearchOn"));
+    }
+    public static GamingOpt getExec() {
+        return EXEC;
     }
 
     /**
-     * 卫星查找规则集指定规则切换
-     *
-     * @param param 待查找的规则名
+     * 卫星查找规则集开启情况
      */
-    public void setRulesOn(String param) {
-        try {
-            rulesOn.set(rules.get(param), !getRulesOn(param));
-        } catch (ClassCastException | NullPointerException | IndexOutOfBoundsException e) {
-            e.printStackTrace();
+    private final BitSet rulesOn = new BitSet();
+
+    /**
+     * 卫星查找规则集索引
+     * <p>
+     *     索引单词 -> 对应规则集位置
+     * </p>
+     */
+    private final Hashtable<String, Integer> rules = new Hashtable<>();
+
+    /**
+     * 配置查找规则集信息
+     *
+     * @return 是否配置成功
+     */
+    public boolean setRules() {
+        String command;
+        String err;
+
+        System.out.println("现在开始配置卫星查找的规则集");
+        listRules();
+
+        for (Iterator<String> keys = rules.keySet().iterator(); keys.hasNext();) {
+            err = "";
+            String key = keys.next();
+
+            do {
+                System.out.print( err + "请填写" + key + ": ");
+                command = SysIn.nextLine();
+                err = LoadGame.CP.checkTrueFalse(command);
+            } while (err.contains("err:"));
+
+            setRulesOn(key, LoadGame.CP.getTrueFalseFromIn(command));
         }
+
+        /*
+          cosparid查找和name查找只留一个
+         */
+        while (getRulesOn("name") == getRulesOn("cosparid")) {
+            String open;
+            if (getRulesOn("name") && getRulesOn("cosparid")) {
+                System.out.print("检测到名称查找和cosparid查找同时开启，请保留一个（name/cosparid）: ");
+            } else {
+                System.out.print("检测到名称查找和cosparid查找全部关闭，请开启一个（name/cosparid）: ");
+            }
+            while (!(open = SysIn.nextLine()).matches("(^name$)|(^cosparid$)")) {
+                System.out.print("参数错误！，请填写指定查找参数: ");
+            }
+            setRulesOn("name", false);
+            setRulesOn("cosparid", false);
+            setRulesOn(open, true);
+        }
+
+        return true;
     }
 
     /**
@@ -74,13 +110,12 @@ public class GamingOpt {
      * 列出当前查找规则集
      */
     public void listRules() {
-        System.out.printf(
-                "当前查找规则\n名称查询: %2s\ncosparid查询: %2s\n模糊查询: %2s\n忽略大小写: %2s\n%n",
-                (getRulesOn("name"))?"是":"否",
-                (getRulesOn("cosparid"))?"是":"否",
-                (getRulesOn("fuzzySearchOn"))?"是":"否",
-                (getRulesOn("caseLockOn"))?"是":"否"
-        );
+        System.out.println("\n当前查找规则");
+        for (Iterator<String> keys = rules.keySet().iterator(); keys.hasNext();) {
+            String key = keys.next();
+            System.out.println(key + ":" + (getRulesOn(key)?"是":"否"));
+        }
+        System.out.println();
     }
 
     /**
@@ -89,11 +124,8 @@ public class GamingOpt {
      * @param param 待查找的规则名
      * @return 返回该规则开启情况
      */
-    public boolean getRulesOn(String param) throws
-            ClassCastException,NullPointerException,IndexOutOfBoundsException {
-        boolean status;
-        status = rulesOn.get(rules.get(param));
-        return status;
+    public boolean getRulesOn(String param) {
+        return rulesOn.get(rules.get(param));
     }
 
     /**
@@ -102,7 +134,6 @@ public class GamingOpt {
      * @return 是否添加成功
      */
     public boolean addSatellite() {
-        /* 待添加的卫星名字 */
         String name = null;
         double dis = 0;
         /* 待添加的卫星轨道价值 */
@@ -126,7 +157,7 @@ public class GamingOpt {
         System.out.println(info);
 
         System.out.println("现在开始添加卫星，请添加对应的信息");
-        System.out.println("卫星使用状态请填写true、false等真假单词");
+        System.out.println("卫星使用状态请填写表示真假的单词");
 
         /* 遍历键值对 */
         for (String key : params ) {
@@ -153,7 +184,7 @@ public class GamingOpt {
                 case "cosparid":
                     cosparid = keyVal.toUpperCase();
                     // 根据cosparid获取所属国家
-                    for (Country cty : LoadGame.MNG.getPlt().ctys) {
+                    for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
                         if (cty.getCode().equals(cosparid.substring(0,2))) {
                             belongCty = cty;
                             break;
@@ -161,7 +192,7 @@ public class GamingOpt {
                     }
                     break;
                 case "used":
-                    used = Boolean.parseBoolean(keyVal);
+                    used = LoadGame.CP.getTrueFalseFromIn(keyVal);
                     break;
                 default:
                     break;
@@ -172,9 +203,8 @@ public class GamingOpt {
 
         assert belongCty != null;
         Satellite newSat = new Satellite(name, cosparid, dis, disValue, used);
-        newSat.setCty(belongCty);
 
-        belongCty.sats.add(newSat);
+        belongCty.getSats().add(newSat);
 
         return true;
     }
@@ -200,26 +230,11 @@ public class GamingOpt {
          */
         ArrayList<Satellite> sats = new ArrayList<>();
 
-        /*
-          cosparid查找和name查找只留一个
-         */
-        while (getRulesOn("name") == getRulesOn("cosparid")) {
-            String open;
-            if (getRulesOn("name") && getRulesOn("cosparid")) {
-                System.out.print("检测到名称查找和cosparid查找同时开启，请保留一个（name/cosparid）: ");
-            } else {
-                System.out.print("检测到名称查找和cosparid查找全部关闭，请开启一个（name/cosparid）: ");
-            }
-            while (!(open = SysIn.nextLine()).matches("(^name$)|(^cosparid$)")) {
-                System.out.print("参数错误！，请填写指定查找参数: ");
-            }
-            setRulesOn("name", false);
-            setRulesOn("cosparid", false);
-            setRulesOn(open, true);
+        if (LoadGame.MNG.getPlt().getAmountsSat() <= 0) {
+            return null;
         }
-
-        for (Country cty : LoadGame.MNG.getPlt().ctys) {
-            for (Satellite sat : cty.sats) {
+        for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
+            for (Satellite sat : cty.getSats()) {
                 String satName = sat.getName();
                 String satCos = sat.getCosparid();
                 if (getRulesOn("caseLockOn")) {
@@ -238,7 +253,7 @@ public class GamingOpt {
                     }
                 }
                 if (getRulesOn("cosparid")) {
-                    if (getRulesOn("fuzzySearchON")) {
+                    if (getRulesOn("fuzzySearchOn")) {
                         if (satCos.contains(param)) {
                             sats.add(sat);
                         }
@@ -251,7 +266,6 @@ public class GamingOpt {
             }
         }
 
-        // 注意toArray是浅拷贝，之后考虑重构防止破坏封装性
         return sats.toArray(new Satellite[0]);
     }
 
@@ -261,12 +275,18 @@ public class GamingOpt {
      * @return 选取的单个卫星
      */
     private Satellite findSat() {
-        String findParam = SysIn.nextLine();
-        String tmp;
+        String findParam;
+        String command;
+        String err;
         Satellite[] list;
         Satellite sat;
         StringBuffer info = new StringBuffer();
 
+        if (LoadGame.MNG.getPlt().getAmountsSat() <= 0) {
+            System.out.println("当前不存在卫星");
+            return null;
+        }
+        findParam = SysIn.nextLine();
         list = findSatList(findParam);
         while (list.length == 0) {
             System.out.println("未查找到指定的卫星，请重新输入查找信息");
@@ -279,20 +299,24 @@ public class GamingOpt {
 
         if (list.length > 1) {
             System.out.println("请输入卫星前的序号选择卫星");
-            tmp = SysIn.nextLine();
-            while (tmp.isEmpty() || tmp.matches(".*[^0-9].*") || Integer.parseInt(tmp) > list.length || Integer.parseInt(tmp) < 1) {
-                System.out.println("Illegal number! Please insert a number range from 1-"+list.length+"!");
-                tmp = SysIn.nextLine();
+            command = SysIn.nextLine();
+            while (command.isEmpty() || command.matches(".*[^0-9].*") || Integer.parseInt(command) > list.length || Integer.parseInt(command) < 1) {
+                System.out.println("错误序号! 请键入范围在 1-"+list.length+"的数字!");
+                command = SysIn.nextLine();
             }
-            sat = list[Integer.parseInt(tmp) - 1];
+            sat = list[Integer.parseInt(command) - 1];
         } else {
-            System.out.println("确认选择该卫星？(yes/no)");
-            tmp = SysIn.nextLine();
-            if (!"yes".equals(tmp)) {
-                System.out.println("操作已中断");
+            err = "";
+            do {
+                System.out.println(err + "确认选择该卫星？");
+                command = SysIn.nextLine();
+                err = LoadGame.CP.checkTrueFalse(command);
+            } while (err.contains("err:"));
+            if (LoadGame.CP.getTrueFalseFromIn(command)) {
+                sat = list[0];
+            } else {
                 return null;
             }
-            sat = list[0];
         }
 
         System.out.println("已选择");
@@ -309,14 +333,14 @@ public class GamingOpt {
     public boolean listInfo() {
         StringBuffer info = new StringBuffer();
 
-        info.append("现在开始列出当前活动行星信心（包括行星信息、国家信息、卫星信息）\n");
+        info.append("现在开始列出当前活动行星信息（包括行星信息、国家信息、卫星信息）\n");
 
         listPlt(info);
         listCty(info);
         listSat(info);
 
         info.append(
-                "@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n"
+                "@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n"
         );
 
         System.out.println(info);
@@ -330,7 +354,7 @@ public class GamingOpt {
      * @param info 添加行星信息
      */
     public void listPlt(StringBuffer info) {
-        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Planet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n");
+        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Planet~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n");
 
         info.append(LoadGame.MNG.getPlt());
     }
@@ -341,9 +365,9 @@ public class GamingOpt {
      * @param info 添加国家信息
      */
     public void listCty(StringBuffer info) {
-        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Country~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n");
+        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Country~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n");
 
-        for (Country cty : LoadGame.MNG.getPlt().ctys) {
+        for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
             info.append(cty);
         }
     }
@@ -353,8 +377,8 @@ public class GamingOpt {
      *
      * @param info 添加卫星信息
      */
-    public void listSat(StringBuffer info) {
-        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Satellites~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n")
+    public boolean listSat(StringBuffer info) {
+        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~The Satellites~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n")
             .append(
                     String.format(
                             "%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n",
@@ -362,16 +386,19 @@ public class GamingOpt {
                     )
             );
 
+        if (LoadGame.MNG.getPlt().getAmountsSat() <= 0) {
+            info.append("当前不存在卫星\n");
+            return false;
+        }
+
         int i = 0;
-        for (Country cty : LoadGame.MNG.getPlt().ctys) {
-            for (Satellite sat : cty.sats) {
+        for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
+            for (Satellite sat : cty.getSats()) {
                 info.append(String.format("%-16s", ++i)).append(sat.toString());
             }
         }
 
-        if (i == 0) {
-            info.append("未查找到卫星");
-        }
+        return true;
     }
 
     /**
@@ -383,8 +410,8 @@ public class GamingOpt {
      * @param info 添加卫星信息
      * @param sats 卫星列表
      */
-    public void listSat(StringBuffer info, Satellite[] sats) {
-        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Satellites~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n")
+    public boolean listSat(StringBuffer info, Satellite[] sats) {
+        info.append("@~~~~~~~~~~~~~~~~~~~~~~~~~~~~The Satellites~~~~~~~~~~~~~~~~~~~~~~~~~~~@\n")
             .append(
                     String.format(
                             "%-16s%-16s%-16s%-16s%-16s%-16s%-16s\n",
@@ -392,19 +419,26 @@ public class GamingOpt {
                     )
             );
 
+        if (sats == null) {
+            info.append("不存在卫星\n");
+            return false;
+        }
+
         int i = 0;
         for (Satellite sat : sats) {
             info.append(String.format("%-16s", ++i)).append(sat.toString());
         }
 
         if (i == 0) {
-            info.append("未查询到指定卫星");
+            info.append("当前列表没有指定卫星\n");
         }
+
+        return true;
 
     }
 
     /**
-     * 查找卫星并根据传入的卫星列表打印出信息
+     * 查找卫星打印出信息
      * <p>
      *     填入查找的参数
      *     调用findSat方法返回卫星列表
@@ -418,7 +452,12 @@ public class GamingOpt {
 
         listRules();
 
-        System.out.print("现在开始查找卫星，请输入查找的关键字: ");
+        System.out.println("现在开始查找卫星，请输入查找的关键字");
+
+        if (LoadGame.MNG.getPlt().getAmountsSat() <= 0) {
+            System.out.println("不存在卫星");
+            return false;
+        }
 
         listSat(info, findSatList(SysIn.nextLine()));
         System.out.println(info);
@@ -435,7 +474,7 @@ public class GamingOpt {
         Satellite sat;
         String tmp;
         System.out.println("现在开始修改卫星信息");
-        System.out.println("请注意只能修改卫星的名字，请先根据关键词查找卫星:");
+        System.out.println("请注意只能修改卫星的名字，请先根据关键词查找卫星");
 
         listRules();
 
@@ -468,8 +507,9 @@ public class GamingOpt {
      */
     public boolean delSat() {
         Satellite sat;
+        String command;
         System.out.println("现在开始删除卫星，请先查找卫星");
-        System.out.print("开始查找卫星，请输入查找的关键字: ");
+        System.out.println("开始查找卫星，请输入查找的关键字");
 
         listRules();
         sat = findSat();
@@ -479,10 +519,21 @@ public class GamingOpt {
             return false;
         }
 
-        System.out.println("卫星" + sat.getCosparid() + ":" + sat.getName() + "已被删除");
-        sat.getBelongCty().sats.removeIf(e -> e.equals(sat));
+        System.out.print("是否删除卫星？:");
+        command = SysIn.nextLine();
+        while (command.isEmpty() | LoadGame.CP.checkTrueFalse(command).contains("err:")) {
+            System.out.println("错误参数，请重新输入");
+            command = SysIn.nextLine();
+        }
 
-        return true;
+        if (LoadGame.CP.getTrueFalseFromIn(command)) {
+            sat.inWhichCountry().getSats().removeIf(e -> e.equals(sat));
+            System.out.println("卫星" + sat.getCosparid() + ":" + sat.getName() + "已被删除");
+            return true;
+        } else {
+            System.out.println("删除卫星操作中断");
+            return false;
+        }
     }
 
     /**
@@ -504,14 +555,14 @@ public class GamingOpt {
             return false;
         }
 
-        System.out.printf("是否%s卫星？（yes/no）%n",sat.getUsed()?"封锁":"启用");
+        System.out.printf("是否%s卫星？:",sat.getUsed()?"封锁":"启用");
         command = SysIn.nextLine();
-        while (command.isEmpty() | (!"yes".equals(command) & !"no".equals(command))) {
+        while (command.isEmpty() | LoadGame.CP.checkTrueFalse(command).contains("err:")) {
             System.out.println("错误参数，请重新输入");
             command = SysIn.nextLine();
         }
 
-        if ("no".equals(command)) {
+        if (!LoadGame.CP.getTrueFalseFromIn(command)) {
             System.out.println("未做任何改变");
         } else {
             System.out.println("卫星已设置为" + (sat.getUsed()?"封锁":"启用"));
@@ -531,8 +582,12 @@ public class GamingOpt {
         StringBuffer info = new StringBuffer();
         ArrayList<Satellite> list = new ArrayList<>();
 
-        for (Country cty : LoadGame.MNG.getPlt().ctys) {
-            for (Satellite e : cty.sats) {
+        if (LoadGame.MNG.getPlt().getAmountsSat() <= 0) {
+            System.out.println("当前不存在卫星");
+            return false;
+        }
+        for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
+            for (Satellite e : cty.getSats()) {
                 if (!e.getUsed()) {
                     list.add(e);
                 }
@@ -568,8 +623,7 @@ public class GamingOpt {
         } while (err.contains("err:"));
 
         Country newCty = new Country(name, code.toUpperCase(), new ArrayList<>());
-        newCty.setBelong(LoadGame.MNG.getPlt());
-        LoadGame.MNG.getPlt().ctys.add(newCty);
+        LoadGame.MNG.getPlt().getCtys().add(newCty);
 
         return true;
     }
