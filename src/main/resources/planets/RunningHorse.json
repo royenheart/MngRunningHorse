@@ -4,7 +4,7 @@
   "size": 255,
   "ctys": [
     {
-      "name": "Fr",
+      "name": "HOLA",
       "code": "AA",
       "sats": [
         {
@@ -24,7 +24,7 @@
       ]
     },
     {
-      "name": "GD",
+      "name": "GrantBlue",
       "code": "AB",
       "sats": [
         {
@@ -37,7 +37,7 @@
       ]
     },
     {
-      "name": "bee",
+      "name": "Skadi",
       "code": "CS",
       "sats": [
         {
@@ -50,7 +50,7 @@
       ]
     },
     {
-      "name": "see",
+      "name": "WatchDog",
       "code": "NL",
       "sats": [
         {
@@ -61,16 +61,6 @@
           "used": true
         }
       ]
-    },
-    {
-      "name": "FF",
-      "code": "FF",
-      "sats": []
-    },
-    {
-      "name": "AB",
-      "code": "DD",
-      "sats": []
     }
   ]
 }

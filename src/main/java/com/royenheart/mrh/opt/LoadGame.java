@@ -1,9 +1,8 @@
 package com.royenheart.mrh.opt;
 
 import com.google.gson.Gson;
-import com.royenheart.mrh.universe.Country;
+import com.google.gson.JsonSyntaxException;
 import com.royenheart.mrh.universe.Planet;
-import com.royenheart.mrh.universe.Satellite;
 import com.royenheart.mrh.universe.Universe;
 
 import java.io.File;
@@ -48,13 +47,17 @@ public class LoadGame {
         File[] fs = file.listFiles();
 
         assert fs != null;
+        // 遍历目录下的json文件
         for (File f : fs) {
             if (f.isFile() && f.getName().matches(".*.json")) {
                 Path fp = f.toPath();
                 Reader reader = Files.newBufferedReader(fp, StandardCharsets.UTF_8);
-                Planet plt = gson.fromJson(reader, Planet.class);
-
-                MNG.addPlt(plt);
+                try {
+                    Planet plt = gson.fromJson(reader, Planet.class);
+                    MNG.addPlt(plt);
+                } catch (JsonSyntaxException e) {
+                    System.out.println(f.getName() + ":json格式错误，已跳过" );
+                }
             }
         }
     }

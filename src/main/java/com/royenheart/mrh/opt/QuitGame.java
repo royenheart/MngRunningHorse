@@ -47,4 +47,25 @@ public class QuitGame {
         return true;
     }
 
+    /**
+     * 保存指定行星对象的信息
+     */
+    public boolean store(Planet newSat) {
+        String fileName = "src/main/resources/planets/" + newSat.getName() + ".json";
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+                                     .setPrettyPrinting()
+                                     .create();
+
+        try {
+            PrintStream writer = new PrintStream(fileName);
+            gson.toJson(newSat, Planet.class, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
 }

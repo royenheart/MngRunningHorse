@@ -24,16 +24,48 @@ public class MrhCli {
             e.printStackTrace();
         }
 
-        // 选择、删除、生成行星
-        System.out.println(LoadGame.MNG.listPlts());
-        System.out.println("请键入序号选择此次游戏的行星");
-        command = SysIn.nextLine();
-        // 判断指令是否为数字的范围内
-        while (command.isEmpty() || command.matches(".*[^0-9].*") ||
-                !LoadGame.MNG.setPlt(Integer.parseInt(command))) {
-            System.out.println("非法操作! 请键入数字编号或者键入正确的范围!");
-            command = SysIn.nextLine();
-        }
+        // 选择、生成行星
+        String uniInfo = "" +
+                "=============================\n" +
+                "   1---选择行星\n" +
+                "   2---生成新行星\n" +
+                "=============================\n" +
+                "选择: ";
+
+        System.out.println("欢迎来到" + Universe.getName() + "元宇宙!");
+        int com;
+        do {
+            if (LoadGame.MNG.getAmountsPlts() <= 0) {
+                System.out.println("未检测到任何已有行星数据，请先创建一个新的行星");
+                com = 2;
+                LoadGame.MNG.initPlt();
+            } else {
+                System.out.println(uniInfo);
+                command = SysIn.nextLine();
+                // 判断指令是否为数字的范围内
+                while (command.isEmpty() || command.matches(".*[^0-9].*") ||
+                        Integer.parseInt(command) < 1 || Integer.parseInt(command) > 2) {
+                    System.out.println("非法操作! 请键入数字编号或者键入正确的范围!");
+                    command = SysIn.nextLine();
+                }
+                com = Integer.parseInt(command);
+                if (com == 1) {
+                    System.out.println(LoadGame.MNG.listPlts());
+                    System.out.println("选择行星，请选择行星前的编号");
+                    command = SysIn.nextLine();
+                    while (command.isEmpty() || command.matches(".*[^0-9].*") ||
+                            Integer.parseInt(command) < 0 || Integer.parseInt(command) >= LoadGame.MNG.getAmountsPlts()) {
+                        System.out.println("非法操作! 请键入数字编号或者键入正确的范围!");
+                        command = SysIn.nextLine();
+                    }
+                    LoadGame.MNG.setPlt(Integer.parseInt(command));
+                } else {
+                    LoadGame.MNG.initPlt();
+                }
+
+                LoadGame.MNG.setPlt(Integer.parseInt(command));
+            }
+        } while (com != 1);
 
         // 操作提示
         String opInfo = "" +
@@ -51,11 +83,6 @@ public class MrhCli {
                 "   11---退出!\n" +
                 "=============================\n" +
                 "选择: ";
-
-
-        // 生成宇宙操作
-
-        System.out.println("欢迎来到" + Universe.getName() + "元宇宙!");
 
         do {
             System.out.print(opInfo);

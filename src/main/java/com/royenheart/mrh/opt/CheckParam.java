@@ -28,40 +28,6 @@ public class CheckParam {
     }
 
     /**
-     * 检测行星参数
-     *
-     * @param key 键
-     * @param value 值
-     * @return 返回错误信息err: message，检测通过返回ok
-     */
-    public String checkSat(String key, String value) {
-        String status;
-
-        switch (key) {
-            case "name":
-                status = checkSatName(value);
-                break;
-            case "distance":
-                status = checkSatDis(value);
-                break;
-            case "track_value":
-                status = checkSatTruckValue(value);
-                break;
-            case "cosparid":
-                status = checkSatCos(value);
-                break;
-            case "used":
-                status = checkSatUsed(value);
-                break;
-            default:
-                status = "err: 传入参数出错，";
-                break;
-        }
-
-        return status;
-    }
-
-    /**
      * 检查卫星名字
      *
      * @param value 待检查的卫星名字
@@ -88,8 +54,10 @@ public class CheckParam {
     public String checkSatDis(String value) {
         double dis;
 
-        if (!value.matches("([1-9][0-9]+)|([0-9])|([0-9].[0-9]+)|([1-9][0-9]+.[0-9]+)")) {
-            return "err: 非法轨道半径，";
+        if (value.isEmpty()) {
+            return "err: 输入为空,请填入非空合法半径,";
+        }else if (!value.matches("(^[0-9]*$)|(^[0-9]{1,}\\.[0-9]{1,}$)")) {
+            return "err: 非法轨道半径,";
         } else {
             dis = Double.parseDouble(value);
             if (dis < Satellite.MIN_DIS || dis > Satellite.MAX_DIS) {
@@ -109,18 +77,20 @@ public class CheckParam {
     /**
      * 检测轨道价值
      *
-     * @param value 用户填入指令
+     * @param param 用户填入参数
      * @return 错误状态
      */
-    public String checkSatTruckValue(String value) {
-        double tVal;
+    public String checkSatTruckValue(String param) {
+        double value;
 
-        if (!value.matches("([1-9][0-9]+)|([0-9])|([0-9].[0-9]+)|([1-9][0-9]+.[0-9]+)")) {
-            return "err: 非法数值，";
+        if (param.isEmpty()) {
+            return "err: 输入为空,请填入非空合法轨道价值,";
+        } else if (!param.matches("(^[0-9]*$)|(^[0-9]{1,}\\.[0-9]{1,}$)")) {
+            return "err: 非法轨道价值，";
         } else {
-            tVal = Double.parseDouble(value);
-            if (tVal < Satellite.MIN_VALUE) {
-                return "err: 轨道半径过小,最小值" + tVal + "，";
+            value = Double.parseDouble(param);
+            if (value < Satellite.MIN_VALUE || value > Satellite.MAX_VALUE) {
+                return "err: 轨道价值不符合范围: [" + Satellite.MIN_VALUE + "," + Satellite.MAX_VALUE + "]，";
             }
             return "ok!";
         }
@@ -133,7 +103,9 @@ public class CheckParam {
      * @return 返回错误状态
      */
     public String checkSatCos(String value) {
-        if (value.length() != 6) {
+        if (value.isEmpty()) {
+            return "err: 输入为空，请输入非空合法cosparid";
+        } else if (value.length() != 6) {
             return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长，";
         } else {
             if (value.matches("^[A-Za-z]{2}[0-9]{4}$")) {
@@ -202,6 +174,9 @@ public class CheckParam {
      */
     public String checkTrueFalse(String param) {
         int i;
+        if (param.isEmpty()) {
+            return "err: 输入空字串，请输入合法单词,";
+        }
         for (i = 0;i < trues.length;i++) {
             if (trues[i].equals(param.toLowerCase())) {
                 return "ok!";
@@ -229,6 +204,5 @@ public class CheckParam {
         }
         return false;
     }
-
 
 }

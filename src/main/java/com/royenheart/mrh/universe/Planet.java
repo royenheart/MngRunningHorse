@@ -73,6 +73,7 @@ public class Planet {
 
     /**
      * 查询当前存在的卫星数量
+     *
      * @return 卫星数量
      */
     public int getAmountsSat() {
@@ -81,6 +82,10 @@ public class Planet {
             i += cty.getAmountsSat();
         }
         return i;
+    }
+
+    public int getAmountsCty() {
+        return ctys.size();
     }
 
 }

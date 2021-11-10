@@ -31,7 +31,7 @@ public class Country {
     /**
      * 卫星数据列表
      */
-    @Expose()
+    @Expose
     private final ArrayList<Satellite> sats;
 
     public Country(String name, String code, ArrayList<Satellite> sats) {

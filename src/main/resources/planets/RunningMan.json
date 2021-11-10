@@ -1,0 +1,53 @@
+{
+  "name": "RunningMan",
+  "desc": "A planet where everyone is running",
+  "size": 55,
+  "ctys": [
+    {
+      "name": "BraveLand",
+      "code": "BC",
+      "sats": [
+        {
+          "name": "Hola",
+          "cosparid": "BC1111",
+          "distance": 54.0,
+          "disValue": 342.0,
+          "used": true
+        },
+        {
+          "name": "KingDom",
+          "cosparid": "BC3322",
+          "distance": 5.5,
+          "disValue": 34.0,
+          "used": true
+        },
+        {
+          "name": "Heart",
+          "cosparid": "BC1324",
+          "distance": 6.6,
+          "disValue": 44.0,
+          "used": false
+        },
+        {
+          "name": "YYDS",
+          "cosparid": "BC1012",
+          "distance": 5.0,
+          "disValue": 434.0,
+          "used": true
+        },
+        {
+          "name": "CCOut",
+          "cosparid": "BC0231",
+          "distance": 3.44,
+          "disValue": 45.6,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "NewWorld",
+      "code": "NW",
+      "sats": []
+    }
+  ]
+}
