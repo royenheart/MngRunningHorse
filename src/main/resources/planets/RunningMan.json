@@ -41,6 +41,13 @@
           "distance": 3.44,
           "disValue": 45.6,
           "used": true
+        },
+        {
+          "name": "Amiya",
+          "cosparid": "BC1133",
+          "distance": 3.1,
+          "disValue": 423.525,
+          "used": true
         }
       ]
     },

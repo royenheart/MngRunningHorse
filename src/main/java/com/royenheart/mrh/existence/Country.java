@@ -1,4 +1,4 @@
-package com.royenheart.mrh.universe;
+package com.royenheart.mrh.existence;
 
 import com.google.gson.annotations.Expose;
 
@@ -11,7 +11,6 @@ import java.util.Objects;
  *     包含国家数据：
  *     名字，编号，所属行星
  * </p>
- *
  * @author RoyenHeart
  */
 public class Country {
@@ -84,7 +83,6 @@ public class Country {
 
     /**
      * 获取当前国家卫星数量
-     *
      * @return 卫星数量
      */
     public int getAmountsSat() {

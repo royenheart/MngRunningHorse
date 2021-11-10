@@ -3,8 +3,7 @@ package com.royenheart;
 import java.util.Scanner;
 
 /**
- * Get System input
- *
+ * 获取命令行输入
  * @author RoyenHeart
  */
 public class SysIn {

@@ -1,7 +1,6 @@
-package com.royenheart.mrh.universe;
+package com.royenheart.mrh.existence;
 
 import com.google.gson.annotations.Expose;
-import com.royenheart.mrh.opt.LoadGame;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -15,7 +14,6 @@ import java.util.Objects;
  *     需实现方法：
  *     合法生成卫星、修改卫星状态并同步至行星轨道状态
  * </p>
- *
  * @author RoyenHeart
  */
 
@@ -64,7 +62,6 @@ public class Satellite {
      *     卫星名字、卫星轨道半径、卫星轨道价值、卫星cosparid、卫星所属国家、卫星是否仍在使用
      *     规范化字符串"%10s,%10f,%10f,%10s,%10s,%10s\n"
      * </p>
-     *
      * @return 卫星信息
      */
     @Override
@@ -78,7 +75,6 @@ public class Satellite {
 
     /**
      * 比较两个卫星是否相同（cosparid编号不一样就行）
-     *
      * @param o 比较的对象
      * @return 是否相同
      */
@@ -120,7 +116,6 @@ public class Satellite {
 
     /**
      * 更改卫星使用状态
-     *
      * @param used 当前使用状态
      */
     public void setUsed(boolean used) {
@@ -129,8 +124,7 @@ public class Satellite {
 
     /**
      * 设置卫星名字
-     *
-     * @param name the Satellite's name
+     * @param name 设置的卫星名字
      */
     public void setName(String name) {
         this.name = name;
@@ -138,19 +132,14 @@ public class Satellite {
 
     /**
      * 设置轨道价值
-     *
      * @param disVal 设置的轨道价值
      */
-    public void setDisValue(double disVal) {
-        this.disValue = disVal;
-    }
-
     public void setDisValue(String disVal) {
         this.disValue = Double.parseDouble(disVal);
     }
 
     public Country inWhichCountry() {
-        for (Country cty : LoadGame.MNG.getPlt().getCtys()) {
+        for (Country cty : Universe.getMng().getPlt().getCtys()) {
             if (cty.getSats().contains(this)) {
                 return cty;
             }

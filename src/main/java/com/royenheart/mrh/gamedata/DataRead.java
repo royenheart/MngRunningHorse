@@ -1,9 +1,9 @@
-package com.royenheart.mrh.opt;
+package com.royenheart.mrh.gamedata;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.royenheart.mrh.universe.Planet;
-import com.royenheart.mrh.universe.Universe;
+import com.royenheart.mrh.existence.Planet;
+import com.royenheart.mrh.existence.Universe;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,25 +13,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
- * 游戏载入操作
+ * 游戏数据载入操作
  * <p>
- *     由LoadGame统一管理参数检测、mng宇宙
- *     当结束游戏时将行星信息传达给QuitGame，托付其完成数据的保存（JSON文件的形式）
+ *     载入游戏数据（行星数据）
+ *     当结束游戏时由DataStore完成游戏数据的存储
  * </p>
- *
  * @author RoyenHeart
  */
-public class LoadGame {
+public class DataRead {
 
     // 单例设计模式，一次游戏只允许一个LoadGame
-    private static final LoadGame LD = new LoadGame();
-    private LoadGame() {}
-    public static LoadGame getLd() {
+
+    private static final DataRead LD = new DataRead();
+    private DataRead() {
+    }
+    public static DataRead getLd() {
         return LD;
     }
-
-    public static final Universe MNG = Universe.getMng();
-    public static final CheckParam CP = CheckParam.getCp();
 
     /**
      * 初始化已有的mng宇宙数据，包括所有的行星，国家，卫星
@@ -54,7 +52,7 @@ public class LoadGame {
                 Reader reader = Files.newBufferedReader(fp, StandardCharsets.UTF_8);
                 try {
                     Planet plt = gson.fromJson(reader, Planet.class);
-                    MNG.addPlt(plt);
+                    Universe.getMng().addPlt(plt);
                 } catch (JsonSyntaxException e) {
                     System.out.println(f.getName() + ":json格式错误，已跳过" );
                 }

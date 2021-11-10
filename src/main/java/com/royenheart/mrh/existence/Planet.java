@@ -1,4 +1,4 @@
-package com.royenheart.mrh.universe;
+package com.royenheart.mrh.existence;
 
 import com.google.gson.annotations.Expose;
 
@@ -11,10 +11,15 @@ import java.util.Objects;
  *     包括行星数据：
  *     名字、背景故事、行星大小
  * </p>
- *
  * @author RoyenHeart
  */
 public class Planet {
+    // 行星约束
+
+    public static int MIN_NAME_SIZE = 1;
+    public static int MAX_NAME_SIZE = 20;
+    public static int MIN_SIZE = 1;
+    public static int MAX_SIZE = 256;
 
     // 行星数据
 
@@ -38,7 +43,6 @@ public class Planet {
 
     /**
      * 判断行星是否相同
-     *
      * @param o 判断的对象
      * @return 是否相同
      */
@@ -73,7 +77,6 @@ public class Planet {
 
     /**
      * 查询当前存在的卫星数量
-     *
      * @return 卫星数量
      */
     public int getAmountsSat() {

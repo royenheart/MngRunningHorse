@@ -4,17 +4,19 @@
   "size": 43,
   "ctys": [
     {
-      "name": "French",
-      "code": "FR",
-      "sats": [
-        {
-          "name": "ToTheGalaM",
-          "cosparid": "FR0001",
-          "distance": 5.6,
-          "disValue": 0.6,
-          "used": true
-        }
-      ]
+      "name": "TheEye",
+      "code": "AB",
+      "sats": []
+    },
+    {
+      "name": "ManKind",
+      "code": "HY",
+      "sats": []
+    },
+    {
+      "name": "NIM",
+      "code": "NI",
+      "sats": []
     }
   ]
 }
