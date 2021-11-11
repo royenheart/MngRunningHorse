@@ -8,6 +8,10 @@ import com.royenheart.mrh.sysio.SysOutTip;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+/**
+ * 国家操作类，继承自GamingOpt
+ * @author RoyenHeart
+ */
 public class GamingOptCty extends GamingOpt {
 
     private final GamingOptListInfo listInfo;
@@ -31,6 +35,7 @@ public class GamingOptCty extends GamingOpt {
 
         out.print("\n现在开始新增国家操作");
 
+        // 获取国家名字和编号
         try {
             Method useWhat = CheckParam.class.getMethod("checkCtyName", String.class);
             name = cp.checkParamMethod("请填写国家名字",

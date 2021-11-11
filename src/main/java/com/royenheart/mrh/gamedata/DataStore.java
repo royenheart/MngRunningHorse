@@ -57,6 +57,7 @@ public class DataStore {
 
     /**
      * 保存指定行星对象的信息
+     * @param newSat 指定的行星对象
      * @return 是否保存成功
      */
     public boolean store(Planet newSat) {

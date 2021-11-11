@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 /**
  * 检测错误参数
  * <p>
- *     使用相关函数，填入对应待检测的参数
+ *     使用相关函数，填入对应待检测的参数（用户输入）
  *     统一返回"err: "错误提醒
- *     用于GamingOpt类的操作错误提醒
+ *     用于GamingOpt以及其子类的错误输入参数检测
  * </p>
  * @author RoyenHeart
  */
@@ -45,6 +45,7 @@ public class CheckParam {
      * @return 返回错误信息
      */
     public String checkSatName(String value) {
+
         if (value.isEmpty()) {
             return "err: 名字为空，";
         } else if (value.length() > Satellite.MAX_NAME_LENGTH) {
@@ -70,9 +71,11 @@ public class CheckParam {
             return "err: 非法轨道半径,";
         } else {
             dis = Double.parseDouble(value);
+            // 判断轨道范围
             if (!checkNumDecRange(dis, Satellite.MIN_DIS, Satellite.MAX_DIS)) {
                 return "err: 轨道不符合范围: [" + Satellite.MIN_DIS + "," + Satellite.MAX_DIS + "]，";
             }
+            // 判断轨道与其他卫星轨道距离
             for (Country cty : mng.getPlt().getCtys()) {
                 for (Satellite e : cty.getSats()) {
                     if (e.getDistance().subtract(BigDecimal.valueOf(dis)).abs().compareTo(BigDecimal.valueOf(0.2)) < 0) {
@@ -98,6 +101,7 @@ public class CheckParam {
             return "err: 非法轨道价值，";
         } else {
             value = Double.parseDouble(param);
+            // 判断轨道价值
             if (!checkNumDecRange(value, Satellite.MIN_VALUE, Satellite.MAX_VALUE)) {
                 return "err: 轨道价值不符合范围: [" + Satellite.MIN_VALUE + "," + Satellite.MAX_VALUE + "]，";
             }
@@ -111,13 +115,14 @@ public class CheckParam {
      * @return 返回错误状态
      */
     public String checkSatCos(String value) {
+
         if (value.isEmpty()) {
             return "err: 输入为空，请输入非空合法cosparid";
         } else if (value.length() != 6) {
             return (value.length() < 6)?"err: cosparid过短，":"err: cosparid过长，";
         } else {
+            // 检测是否有cosparid冲突并判断是否属于现存的某个国家
             if (value.matches("^[A-Za-z]{2}[0-9]{4}$")) {
-                // 检测是否有cosparid冲突并判断是否属于现存的某个国家
                 boolean isBelong = false;
                 for (Country cty : Universe.getMng().getPlt().getCtys()) {
                     if (cty.getCode().equals(value.toUpperCase().substring(0,2))) {
@@ -154,6 +159,7 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkCtyName(String param) {
+
         if (param.isEmpty()) {
             return "err: 国家名字为空，";
         } else if (param.length() > Country.MAX_NAME_LENGTH) {
@@ -171,11 +177,13 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkCtyCode(String param) {
+
         if (param.isEmpty()) {
             return "err: 编号为空，";
         } else if (!param.matches("[A-Za-z]{2}")) {
             return "err: 编号格式错误，应为两位英文字母组成的编号，";
         } else {
+            // 查看是否已经存在相同的国家编号
             for (Country cty : mng.getPlt().getCtys()) {
                 if (cty.getCode().equals(param.toUpperCase())) {
                     return "err: 编号冲突，与" + cty.getCode() + "发生碰撞，";
@@ -211,7 +219,7 @@ public class CheckParam {
     /**
      * 从输入获取真假
      * @param param 用户输入
-     * @return 用户输入等价的真假
+     * @return 用户输入等价的真假(boolean)
      */
     public boolean getTrueFalseFromIn(String param) {
         int i;
@@ -234,6 +242,7 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkPltName(String param) {
+
         if (param.isEmpty()) {
             return "err: 行星名称为空,";
         } else if (param.length() > Planet.MAX_NAME_SIZE) {
@@ -256,6 +265,7 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkPltSize(String param) {
+
         try {
             if (param.isEmpty()) {
                 return "err: 行星尺寸不得为空,";
@@ -315,10 +325,12 @@ public class CheckParam {
     /**
      * 判断输入是否为处于某个范围内的正整数（用于指令等的选择)
      * <p>
-     *     >low && <high
+     *     范围为闭区间
      * </p>
+     * @param command 传入的用户初始输入
      * @param low 最小值
      * @param high 最大值
+     * @return 最终经过约束的合法的用户输入
      */
     public String checkCommandInRange(String command ,int low, int high) {
         while (command.isEmpty() || !checkNumPositive(command) ||
@@ -330,12 +342,14 @@ public class CheckParam {
     }
 
     /**
-     * 检查各种错误，以相同模板设置提示
+     * 检查各种输入参数的错误，以相同模板设置提示，方法为CheckParam（或其他类）的方法
      * @param message 输入提示信息
      * @param param 需要被输入的参数或者额外说明/限制
      * @param checkMethod 规范输入的检测方法
-     * @param cp 反射需要用到一个CheckParam对象
+     * @param cp 反射需要用到一个指定方法对应类型的对象（常为CheckParam）
      * @return 最终经规范后的用户输入
+     * @throws IllegalAccessException 当传入的方法没有权限访问
+     * @throws IllegalArgumentException 传入方法的参数不合法
      */
     public String checkParamMethod(String message, String param, Method checkMethod, CheckParam cp)
             throws IllegalAccessException, IllegalArgumentException {

@@ -2,6 +2,7 @@ package com.royenheart.mrh.sysio;
 
 /**
  * 提示信息（参数限制、操作结果状态）
+ * @author RoyenHeart
  */
 public class SysOutTip extends BaseSysOut {
 

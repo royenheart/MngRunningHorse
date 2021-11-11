@@ -12,6 +12,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+/**
+ * 卫星操作
+ * @author RoyenHeart
+ */
 public class GamingOptSat extends GamingOpt {
 
     private final GamingOptListInfo listInfo;
@@ -35,9 +39,10 @@ public class GamingOptSat extends GamingOpt {
     public boolean addSat() {
         String name = "";
         double dis = 0;
-        /* 待添加的卫星轨道价值 */
+        // 待添加的卫星轨道价值
         double disValue = 0;
         String cosparid = null;
+        // 待添加的卫星的所属国家
         Country belongCty = null;
         boolean used = false;
         StringBuffer info = new StringBuffer();
@@ -73,13 +78,11 @@ public class GamingOptSat extends GamingOpt {
         out.print("现在开始添加卫星，请添加对应的信息");
         out.print("卫星使用状态请填写表示真假的单词");
 
-        /*
-        遍历param获取方法
-         */
+        // 遍历param获取不同参数对应的检测方法
         for (Method method : params.keySet()) {
             String keyVal;
 
-            /* 获取合法参数 */
+            // 获取合法参数
             try {
                 String param = params.get(method);
                 keyVal = cp.checkParamMethod("请填写", param + limits.get(param), method, cp);
@@ -88,6 +91,7 @@ public class GamingOptSat extends GamingOpt {
                 return false;
             }
 
+            // 根据不同value值选择对应的参数变量进行赋值
             switch (params.get(method)) {
                 case "卫星名字":
                     name = keyVal;
@@ -111,7 +115,6 @@ public class GamingOptSat extends GamingOpt {
         }
 
         // 添加卫星至行星
-
         Satellite newSat = new Satellite(name, cosparid, dis, disValue, used);
 
         // 根据cosparid获取所属国家
@@ -143,9 +146,7 @@ public class GamingOptSat extends GamingOpt {
      * @return 查找到的卫星对象列表
      */
     private ArrayList<Satellite> findSatList(String param) {
-        /*
-          查找到的卫星列表
-         */
+        // 查找到的卫星列表
         ArrayList<Satellite> sats = new ArrayList<>();
 
         if (mng.getPlt().getAmountsSat() <= 0) {
@@ -258,6 +259,7 @@ public class GamingOptSat extends GamingOpt {
         StringBuffer info = new StringBuffer();
         ArrayList<Satellite> list = new ArrayList<>();
 
+        // 获取处于封锁的卫星信息
         for (Country cty : mng.getPlt().getCtys()) {
             for (Satellite e : cty.getSats()) {
                 if (!e.getUsed()) {
@@ -314,6 +316,7 @@ public class GamingOptSat extends GamingOpt {
         String command;
         String message;
         String limit;
+        // 不同信息修改时对应的参数检测的方法
         Method check;
         Method set;
         out.print("\n现在开始修改卫星信息");
@@ -337,6 +340,7 @@ public class GamingOptSat extends GamingOpt {
         command = cp.checkCommandInRange(SysIn.nextLine(), 1, 2);
 
         try {
+            // 根据填入的参数选择不同的卫星信息进行修改
             switch (Integer.parseInt(command)) {
                 case 1:
                     check = CheckParam.class.getMethod("checkSatName", String.class);

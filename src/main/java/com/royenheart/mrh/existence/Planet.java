@@ -24,11 +24,11 @@ public class Planet {
     // 行星数据
 
     @Expose
-    private String name;
+    private final String name;
     @Expose
     private String desc;
     @Expose
-    private int size;
+    private final int size;
 
     /** 国家数据，行星生成后录入 */
     @Expose
@@ -71,6 +71,10 @@ public class Planet {
         );
     }
 
+    /**
+     * 获取国家列表
+     * @return 获取国家列表
+     */
     public ArrayList<Country> getCtys() {
         return ctys;
     }
@@ -87,6 +91,10 @@ public class Planet {
         return i;
     }
 
+    /**
+     * 查询当前存在的国家数量
+     * @return 国家数量
+     */
     public int getAmountsCty() {
         return ctys.size();
     }

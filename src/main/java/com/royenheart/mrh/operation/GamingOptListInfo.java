@@ -7,8 +7,11 @@ import com.royenheart.mrh.sysio.SysOutMain;
 import java.util.ArrayList;
 
 /**
- * 不同方法返回不同数据至info，info存储打印的信息，再由调用的函数进行处理输出
+ * 不同方法将不同的数据写至info，info返还给调用的函数，再由调用的函数对info进行处理输出
  * @author RoyenHeart
+ * @see GamingOptCty 国家操作
+ * @see GamingOptSat 卫星操作
+ * @see GamingOptRules 卫星查找规则集操作
  */
 public class GamingOptListInfo extends GamingOpt {
 

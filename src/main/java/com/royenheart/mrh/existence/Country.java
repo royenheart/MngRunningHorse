@@ -9,7 +9,7 @@ import java.util.Objects;
  * 国家对象
  * <p>
  *     包含国家数据：
- *     名字，编号，所属行星
+ *     国家名字、国家编号
  * </p>
  * @author RoyenHeart
  */
@@ -64,8 +64,20 @@ public class Country {
                 );
     }
 
+    /**
+     * 获取卫星列表
+     * @return 卫星列表
+     */
     public ArrayList<Satellite> getSats() {
         return sats;
+    }
+
+    /**
+     * 获取当前国家卫星数量
+     * @return 卫星数量
+     */
+    public int getAmountsSat() {
+        return sats.size();
     }
 
     @Override
@@ -79,14 +91,6 @@ public class Country {
     @Override
     public int hashCode() {
         return Objects.hash(name, code);
-    }
-
-    /**
-     * 获取当前国家卫星数量
-     * @return 卫星数量
-     */
-    public int getAmountsSat() {
-        return sats.size();
     }
 
 }

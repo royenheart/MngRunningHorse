@@ -1,13 +1,12 @@
 package com.royenheart.mrh.sysio;
 
 /**
- * 错误信息
+ * 打印错误信息
+ * @author RoyenHeart
  */
 public class SysOutErr extends BaseSysOut {
 
-    public SysOutErr() {
-
-    }
+    public SysOutErr() {}
 
     /**
      * 打印出错误
@@ -23,8 +22,14 @@ public class SysOutErr extends BaseSysOut {
         System.out.println(message);
     }
 
+    /**
+     * 打印错误以及错误发生的调用栈信息
+     * @param message 错误信息
+     * @param e 异常对象
+     */
     public void print(String message, Exception e) {
         System.out.println(message);
+        e.printStackTrace();
     }
 
 }

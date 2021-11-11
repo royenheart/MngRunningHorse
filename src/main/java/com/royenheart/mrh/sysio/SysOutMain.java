@@ -2,6 +2,7 @@ package com.royenheart.mrh.sysio;
 
 /**
  * 主要信息
+ * @author RoyenHeart
  */
 public class SysOutMain extends BaseSysOut {
 
@@ -24,6 +25,9 @@ public class SysOutMain extends BaseSysOut {
             "=============================\n" +
             "选择: ";
 
+    /**
+     * 对行星做什么操作的提示
+     */
     private static final String OPT_PLT = "" +
             "=============================\n" +
             "   1---选择行星\n" +

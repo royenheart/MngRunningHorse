@@ -9,14 +9,10 @@ import java.util.Objects;
  * 卫星对象
  * <p>
  *     包括卫星数据：
- *     卫星名字、卫星cosparid、卫星轨道距离、卫星轨道价值、卫星状态、卫星所属国家
- *
- *     需实现方法：
- *     合法生成卫星、修改卫星状态并同步至行星轨道状态
+ *     卫星名字、卫星cosparid、卫星轨道距离、卫星轨道价值、卫星使用状态
  * </p>
  * @author RoyenHeart
  */
-
 public class Satellite {
 
     // 卫星轨道约束
@@ -138,6 +134,10 @@ public class Satellite {
         this.disValue = Double.parseDouble(disVal);
     }
 
+    /**
+     * 返回处在哪个国家
+     * @return 所处的国家
+     */
     public Country inWhichCountry() {
         for (Country cty : Universe.getMng().getPlt().getCtys()) {
             if (cty.getSats().contains(this)) {

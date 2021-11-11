@@ -7,15 +7,17 @@ import com.royenheart.mrh.sysio.SysOutTip;
 
 import java.lang.reflect.Method;
 
+/**
+ * 卫星查找规则集的操作
+ * @author RoyenHeart
+ */
 public class GamingOptRules extends GamingOpt {
 
-    private final GamingOptListInfo listInfo;
     private final SysOutMain out;
     private final SysOutTip tip;
     private final SysOutErr err;
 
     public GamingOptRules() {
-        listInfo = new GamingOptListInfo();
         out = new SysOutMain();
         tip = new SysOutTip();
         err = new SysOutErr();
@@ -23,6 +25,8 @@ public class GamingOptRules extends GamingOpt {
 
     /**
      * 列出当前查找规则集
+     * @param info 列表数据的存储
+     * @return info
      */
     public String listRules(StringBuffer info) {
         info.append("\n当前查找规则");
@@ -45,6 +49,7 @@ public class GamingOptRules extends GamingOpt {
         out.print(listRules(new StringBuffer()));
 
         try {
+            // 遍历键值对，获取规则和其对应的参数以及用户的输入
             for (String s : RULES.keySet()) {
                 try {
                     Method useWhat = CheckParam.class.getMethod("checkTrueFalse", String.class);
@@ -59,9 +64,7 @@ public class GamingOptRules extends GamingOpt {
                 setRulesOn(s, cp.getTrueFalseFromIn(command));
             }
 
-            /*
-          cosparid查找和name查找只留一个
-         */
+            // cosparid查找和name查找只留一个
             while (getRulesOn("name") == getRulesOn("cosparid")) {
                 String open;
                 if (getRulesOn("name") && getRulesOn("cosparid")) {
@@ -88,7 +91,7 @@ public class GamingOptRules extends GamingOpt {
     }
 
     /**
-     * 卫星查找规则集指定规则指定切换
+     * 卫星查找规则集指定规则开启状态根据传入的status设置
      * @param param 待查找的规则名
      * @param status 指定开启状态
      */

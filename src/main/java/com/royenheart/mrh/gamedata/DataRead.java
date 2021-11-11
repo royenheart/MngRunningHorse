@@ -23,7 +23,7 @@ import java.nio.file.Path;
  */
 public class DataRead {
 
-    private SysOutErr err;
+    private final SysOutErr err;
 
     // 单例设计模式，一次游戏只允许一个DataRead
 
@@ -40,6 +40,7 @@ public class DataRead {
      * <p>
      *     同时进行行星选择，删除
      * </p>
+     * @throws IOException 无法从文件读入，可能是设定的存储数据的目录不存在
      */
     public void initial() throws IOException {
         Gson gson = new Gson();

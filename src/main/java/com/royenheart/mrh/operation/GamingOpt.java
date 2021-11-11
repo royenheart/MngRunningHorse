@@ -1,7 +1,6 @@
 package com.royenheart.mrh.operation;
 
 import com.royenheart.mrh.existence.Universe;
-import com.royenheart.mrh.sysio.SysOutMain;
 
 import java.util.BitSet;
 import java.util.Hashtable;
@@ -16,7 +15,6 @@ public class GamingOpt {
 
     protected final Universe mng;
     protected final CheckParam cp;
-    private final SysOutMain out;
 
     /**
      * 卫星查找规则集开启情况，公有
@@ -25,7 +23,7 @@ public class GamingOpt {
     /**
      * 卫星查找规则集索引，公有
      * <p>
-     *     索引单词 -> 对应规则集位置
+     *     索引单词 - 对应规则集位置
      * </p>
      */
     protected static final Hashtable<String, Integer> RULES = new Hashtable<>();
@@ -34,7 +32,6 @@ public class GamingOpt {
         // 获取唯一的宇宙和检查参数
         mng = Universe.getMng();
         cp = new CheckParam();
-        out = new SysOutMain();
     }
 
     /**
