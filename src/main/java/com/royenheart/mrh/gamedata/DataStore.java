@@ -39,7 +39,7 @@ public class DataStore {
      */
     public void store() {
         Planet storePlt = Universe.getMng().getPlt();
-        String fileName = "src/main/resources/planets/" + storePlt.getName() + ".json";
+        String fileName = "resources/planets/" + storePlt.getName() + ".json";
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
                                      .setPrettyPrinting()
@@ -48,7 +48,7 @@ public class DataStore {
         try {
             PrintStream writer = new PrintStream(fileName);
             gson.toJson(storePlt, Planet.class, writer);
-            tip.print("保存成功!");
+            tip.print("保存成功!\n已保存至"+fileName);
         } catch (IOException e) {
             err.print("保存失败!请检查保存目录是否正确，当前行星数据将暂时打印至终端", e);
             gson.toJson(storePlt, Planet.class, System.out);
@@ -61,7 +61,7 @@ public class DataStore {
      * @return 是否保存成功
      */
     public boolean store(Planet newSat) {
-        String fileName = "src/main/resources/planets/" + newSat.getName() + ".json";
+        String fileName = "resources/planets/" + newSat.getName() + ".json";
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
                                      .setPrettyPrinting()
@@ -70,7 +70,7 @@ public class DataStore {
         try {
             PrintStream writer = new PrintStream(fileName);
             gson.toJson(newSat, Planet.class, writer);
-            tip.print("指定行星保存成功!");
+            tip.print("指定行星保存成功!\n已保存至"+fileName);
         } catch (IOException e) {
             err.print("指定行星保存失败!请检查保存目录是否正确，当前行星数据将暂时打印至终端", e);
             gson.toJson(newSat, Planet.class, System.out);

@@ -29,7 +29,7 @@ public class GamingOptRules extends GamingOpt {
      * @return info
      */
     public String listRules(StringBuffer info) {
-        info.append("\n当前查找规则");
+        info.append("\n当前查找规则\n");
         for (String key : RULES.keySet()) {
             info.append(key).append(":").append(getRulesOn(key) ? "是\n" : "否\n");
         }

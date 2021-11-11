@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import com.royenheart.mrh.existence.Planet;
 import com.royenheart.mrh.existence.Universe;
 import com.royenheart.mrh.sysio.SysOutErr;
+import com.royenheart.mrh.sysio.SysOutTip;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +25,13 @@ import java.nio.file.Path;
 public class DataRead {
 
     private final SysOutErr err;
+    private final SysOutTip tip;
 
     // 单例设计模式，一次游戏只允许一个DataRead
 
     private static final DataRead LD = new DataRead();
     private DataRead() {
+        tip = new SysOutTip();
         err = new SysOutErr();
     }
     public static DataRead getLd() {
@@ -45,11 +48,20 @@ public class DataRead {
     public void initial() throws IOException {
         Gson gson = new Gson();
 
-        String path = "src/main/resources/planets";
+        String path = "resources/planets";
         File file = new File(path);
+
+        try {
+            if (mkdirResources(file)) {
+                tip.print(path+"目录不存在，已创建");
+            }
+        } catch (SecurityException e) {
+            err.print(path+"目录创建失败，请检查父目录是否存在或者目录权限是否合适", e);
+            System.exit(-1);
+        }
+
         File[] fs = file.listFiles();
 
-        assert fs != null;
         // 遍历目录下的json文件
         for (File f : fs) {
             if (f.isFile() && f.getName().matches(".*.json")) {
@@ -64,4 +76,9 @@ public class DataRead {
             }
         }
     }
+
+    private boolean mkdirResources(File make) throws SecurityException {
+        return make.mkdirs();
+    }
+
 }
