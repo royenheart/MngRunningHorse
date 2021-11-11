@@ -1,10 +1,11 @@
 package com.royenheart.mrh.operation;
 
-import com.royenheart.SysIn;
 import com.royenheart.mrh.existence.Country;
 import com.royenheart.mrh.existence.Planet;
 import com.royenheart.mrh.existence.Satellite;
 import com.royenheart.mrh.existence.Universe;
+import com.royenheart.mrh.sysio.SysIn;
+import com.royenheart.mrh.sysio.SysOutTip;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,23 +22,21 @@ import java.math.BigDecimal;
  */
 public class CheckParam {
 
-    // Universe实例（方便调用）
-
+    /**
+     * Universe实例（方便调用）
+     */
     private final Universe mng;
+
+    private final SysOutTip tip;
 
     // 真假判断单词集
 
     private static final String[] TRUTHS = {"true","yes","真","是","y","ok"};
     private static final String[] FALSES = {"false","no","假","否","n"};
 
-    // 单例设计模式，只允许生成一个CheckParam类，并托付给LoadGame
-
-    private static final CheckParam CP = new CheckParam();
-    private CheckParam() {
+    public CheckParam() {
         mng = Universe.getMng();
-    }
-    public static CheckParam getCp() {
-        return CP;
+        tip = new SysOutTip();
     }
 
     /**
@@ -76,8 +75,7 @@ public class CheckParam {
             }
             for (Country cty : mng.getPlt().getCtys()) {
                 for (Satellite e : cty.getSats()) {
-                    if (e.getDistance().subtract(BigDecimal.valueOf(dis)).abs().compareTo(BigDecimal.valueOf(0.2)) < 0
-                    ) {
+                    if (e.getDistance().subtract(BigDecimal.valueOf(dis)).abs().compareTo(BigDecimal.valueOf(0.2)) < 0) {
                         return "err: 与" + e.getName() + "号" + "[轨道距离：" + e.getDistance() + "]" + "相距太近，";
                     }
                 }
@@ -127,7 +125,7 @@ public class CheckParam {
                     }
                     for (Satellite sat : cty.getSats()) {
                         if (sat.getCosparid().equals(value.toUpperCase())) {
-                            return "err: cosparid已存在\n" + "冲突卫星: \n" + sat.getName() + ":" + sat.getCosparid() + "\n";
+                            return "err: cosparid已存在\n冲突卫星: \n" + sat.getCosparid() + ":" + sat.getName() + "\n";
                         }
                     }
                 }
@@ -325,7 +323,7 @@ public class CheckParam {
     public String checkCommandInRange(String command ,int low, int high) {
         while (command.isEmpty() || !checkNumPositive(command) ||
                 !checkNumPosRange(Integer.parseInt(command), low, high)) {
-            System.out.println("非法操作! 请键入数字，范围为 " + (low+1) + "-" + (high-1) + "!");
+            tip.print("非法操作! 请键入数字，范围为 " + (low) + "-" + (high) + "!");
             command = SysIn.nextLine();
         }
         return command;
@@ -336,22 +334,22 @@ public class CheckParam {
      * @param message 输入提示信息
      * @param param 需要被输入的参数或者额外说明/限制
      * @param checkMethod 规范输入的检测方法
+     * @param cp 反射需要用到一个CheckParam对象
      * @return 最终经规范后的用户输入
      */
-    public String checkParamMethod(String message, String param, Method checkMethod)
+    public String checkParamMethod(String message, String param, Method checkMethod, CheckParam cp)
             throws IllegalAccessException, IllegalArgumentException {
-        String err = "";
+        String errInfo = "";
         String command;
         do {
-            System.out.print(err + message + param + ": ");
+            tip.print(errInfo + message + param + ": ");
             command = SysIn.nextLine();
             try {
-                err = (String) checkMethod.invoke(CheckParam.getCp(), command);
+                errInfo = (String) checkMethod.invoke(cp, command);
             } catch (InvocationTargetException e) {
-                System.out.println("检测方法出现错误");
                 e.printStackTrace();
             }
-        } while (err.contains("err:"));
+        } while (errInfo.contains("err:"));
         return command;
     }
 

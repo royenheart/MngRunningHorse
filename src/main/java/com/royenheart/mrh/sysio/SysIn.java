@@ -1,4 +1,4 @@
-package com.royenheart;
+package com.royenheart.mrh.sysio;
 
 import java.util.Scanner;
 
@@ -8,10 +8,10 @@ import java.util.Scanner;
  */
 public class SysIn {
 
-    private static final Scanner SysIn = new Scanner(System.in);
+    private static final Scanner SYS_IN = new Scanner(System.in);
     private SysIn(){}
     public static String nextLine() {
-        return SysIn.nextLine();
+        return SYS_IN.nextLine();
     }
 
 }

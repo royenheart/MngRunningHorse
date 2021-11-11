@@ -36,9 +36,9 @@ public class Satellite {
     @Expose
     private String name;
     @Expose
-    private String cosparid;
+    private final String cosparid;
     @Expose
-    private BigDecimal distance;
+    private final BigDecimal distance;
     /**
      * 所处轨道价值
      */

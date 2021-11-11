@@ -6,7 +6,15 @@
     {
       "name": "TheEye",
       "code": "AB",
-      "sats": []
+      "sats": [
+        {
+          "name": "WOAINI",
+          "cosparid": "AB1011",
+          "distance": 1.2,
+          "disValue": 121.0,
+          "used": false
+        }
+      ]
     },
     {
       "name": "ManKind",
@@ -16,6 +24,11 @@
     {
       "name": "NIM",
       "code": "NI",
+      "sats": []
+    },
+    {
+      "name": "JSK",
+      "code": "RR",
       "sats": []
     }
   ]

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.royenheart.mrh.existence.Planet;
 import com.royenheart.mrh.existence.Universe;
+import com.royenheart.mrh.sysio.SysOutErr;
+import com.royenheart.mrh.sysio.SysOutTip;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -18,20 +20,24 @@ import java.io.PrintStream;
  */
 public class DataStore {
 
-    // 单例设计模式，一次游戏只允许一个QuitGame
+    private final SysOutTip tip;
+    private final SysOutErr err;
+
+    // 单例设计模式，一次游戏只允许一个DataStore
 
     private static final DataStore QG = new DataStore();
-    private DataStore() {}
+    private DataStore() {
+        tip = new SysOutTip();
+        err = new SysOutErr();
+    }
     public static DataStore getQg() {
         return QG;
     }
 
     /**
      * 保存当前游玩的行星信息
-     * @return 是否保存成功
      */
-    public boolean store() {
-
+    public void store() {
         Planet storePlt = Universe.getMng().getPlt();
         String fileName = "src/main/resources/planets/" + storePlt.getName() + ".json";
 
@@ -42,12 +48,11 @@ public class DataStore {
         try {
             PrintStream writer = new PrintStream(fileName);
             gson.toJson(storePlt, Planet.class, writer);
+            tip.print("保存成功!");
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            err.print("保存失败!请检查保存目录是否正确，当前行星数据将暂时打印至终端", e);
+            gson.toJson(storePlt, Planet.class, System.out);
         }
-
-        return true;
     }
 
     /**
@@ -64,8 +69,10 @@ public class DataStore {
         try {
             PrintStream writer = new PrintStream(fileName);
             gson.toJson(newSat, Planet.class, writer);
+            tip.print("指定行星保存成功!");
         } catch (IOException e) {
-            e.printStackTrace();
+            err.print("指定行星保存失败!请检查保存目录是否正确，当前行星数据将暂时打印至终端", e);
+            gson.toJson(newSat, Planet.class, System.out);
             return false;
         }
 

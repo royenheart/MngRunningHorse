@@ -1,10 +1,13 @@
 package com.royenheart;
 
-import com.royenheart.mrh.operation.CheckParam;
-import com.royenheart.mrh.operation.GamingOpt;
+import com.royenheart.mrh.existence.Universe;
 import com.royenheart.mrh.gamedata.DataRead;
 import com.royenheart.mrh.gamedata.DataStore;
-import com.royenheart.mrh.existence.Universe;
+import com.royenheart.mrh.operation.*;
+import com.royenheart.mrh.sysio.SysIn;
+import com.royenheart.mrh.sysio.SysOutErr;
+import com.royenheart.mrh.sysio.SysOutMain;
+import com.royenheart.mrh.sysio.SysOutTip;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -19,118 +22,90 @@ public class MrhCli {
     public static void main(String[] args) {
         String command;
         Universe mng = Universe.getMng();
-        CheckParam cp = CheckParam.getCp();
-        GamingOpt exec = GamingOpt.getExec();
+        CheckParam cp = new CheckParam();
+        SysOutMain out = new SysOutMain();
+        SysOutTip tip = new SysOutTip();
+        SysOutErr err = new SysOutErr();
 
-        // 初始化数据
         try {
+            // 初始行星数据
             DataRead.getLd().initial();
+            // 初始化查找规则
+            GamingOpt.initRules();
         } catch (IOException e) {
-            e.printStackTrace();
+            err.print("读取数据出错，请检查行星数据存储位置是否正确", e);
+            System.exit(-1);
         }
 
-        // 选择、生成行星
-        String uniInfo = "" +
-                "=============================\n" +
-                "   1---选择行星\n" +
-                "   2---生成新行星\n" +
-                "=============================\n" +
-                "选择: ";
-
-        System.out.println("欢迎来到" + Universe.getName() + "元宇宙!");
-        int com;
-        do {
-            if (mng.getAmountsPlts() <= 0) {
-                System.out.println("未检测到任何已有行星数据，请先创建一个新的行星");
-                com = 2;
-                mng.initPlt();
-            } else {
-                System.out.println(uniInfo);
-                command = SysIn.nextLine();
-                // 判断指令是否为数字的范围内
-                command = cp.checkCommandInRange(command, 1, 2);
-                com = Integer.parseInt(command);
-                if (com == 1) {
-                    System.out.println(mng.listPlts());
-                    System.out.println("选择行星，请选择行星前的编号");
-                    command = SysIn.nextLine();
-                    command = cp.checkCommandInRange(command, 0, mng.getAmountsPlts()-1);
-                    mng.setPlt(Integer.parseInt(command));
-                } else {
-                    mng.initPlt();
-                }
-
+        out.print("欢迎来到" + Universe.getName() + "元宇宙!");
+        if (mng.getAmountsPlts() <= 0) {
+            tip.print("当前没有任何行星数据，请先创建一个新的行星");
+            mng.initPlt();
+        }
+        while (true) {
+            out.printOptPltChoose();
+            command = cp.checkCommandInRange(SysIn.nextLine(), 1, 2);
+            if (Integer.parseInt(command) == 1) {
+                out.print(mng.listPlts());
+                out.print("请选择需要游戏的行星前的编号");
+                command = cp.checkCommandInRange(SysIn.nextLine(), 0, mng.getAmountsPlts()-1);
                 mng.setPlt(Integer.parseInt(command));
+                break;
+            } else {
+                out.print("当前已有行星\n"+mng.listPlts());
+                mng.initPlt();
             }
-        } while (com != 1);
-
-        // 操作提示
-        String opInfo = "" +
-                "=============================\n" +
-                "   1---显示当前行星和活动卫星列表\n" +
-                "   2---注册新卫星\n" +
-                "   3---删除已有卫星\n" +
-                "   4---激活、封锁卫星\n" +
-                "   5---显示停运卫星列表\n" +
-                "   6---查找卫星\n" +
-                "   7---修改卫星信息\n" +
-                "   8---添加国家\n" +
-                "   9---显示当前国家列表\n" +
-                "   10---卫星搜索配置\n" +
-                "   11---退出!\n" +
-                "=============================\n" +
-                "选择: ";
+        }
 
         // 操作键值对
         Hashtable<String, Method> optList = new Hashtable<>();
+        Hashtable<Class, Object> optInstance = new Hashtable<>();
         try {
-            optList.put("1", GamingOpt.class.getMethod("listInfoAll"));
-            optList.put("2", GamingOpt.class.getMethod("addSat"));
-            optList.put("3", GamingOpt.class.getMethod("delSat"));
-            optList.put("4", GamingOpt.class.getMethod("disEnableSat"));
-            optList.put("5", GamingOpt.class.getMethod("findNoUseSat"));
-            optList.put("6", GamingOpt.class.getMethod("findSatListInfo"));
-            optList.put("7", GamingOpt.class.getMethod("editSat"));
-            optList.put("8", GamingOpt.class.getMethod("addCty"));
-            optList.put("9", GamingOpt.class.getMethod("listInfoCty"));
-            optList.put("10", GamingOpt.class.getMethod("setRules"));
+            optList.put("1", GamingOptListInfo.class.getMethod("listInfoAll"));
+            optList.put("2", GamingOptSat.class.getMethod("addSat"));
+            optList.put("3", GamingOptSat.class.getMethod("delSat"));
+            optList.put("4", GamingOptSat.class.getMethod("disEnableSat"));
+            optList.put("5", GamingOptSat.class.getMethod("findNoUseSat"));
+            optList.put("6", GamingOptSat.class.getMethod("findSatListInfo"));
+            optList.put("7", GamingOptSat.class.getMethod("editSat"));
+            optList.put("8", GamingOptCty.class.getMethod("addCty"));
+            optList.put("9", GamingOptCty.class.getMethod("listInfoCty"));
+            optList.put("10", GamingOptRules.class.getMethod("setRules"));
+            optInstance.put(GamingOptListInfo.class, new GamingOptListInfo());
+            optInstance.put(GamingOptRules.class, new GamingOptRules());
+            optInstance.put(GamingOptCty.class, new GamingOptCty());
+            optInstance.put(GamingOptSat.class, new GamingOptSat());
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+            err.print("未找到相关方法，请检查操作列表是否添加正确?", e);
+            System.exit(-1);
         }
 
         do {
-            boolean isOptSuccess = false;
-            System.out.print(opInfo);
-            command = SysIn.nextLine();
-
+            boolean isOptSuccess;
+            out.printOptCommand();
             // 判断是否为正整数且处于1-11的范围内
-            command = cp.checkCommandInRange(command, 1, 11);
+            command = cp.checkCommandInRange(SysIn.nextLine(), 1, 11);
 
             // 执行相应操作
-            if ("11".equals(command)) {
-                isOptSuccess = true;
-            } else {
+            if (!"11".equals(command)) {
                 try {
-                    isOptSuccess = (boolean) optList.get(command).invoke(exec);
+                    Method judge = optList.get(command);
+                    Class who = judge.getDeclaringClass();
+                    isOptSuccess = (boolean) judge.invoke(optInstance.get(who));
                 } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                    err.print("操作拒绝访问或掷出错误未被处理，终止进一步操作，请检查错误", e);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    err.print("传入错误/多余参数至方法，请检查参数");
+                    break;
                 }
-            }
-
-            if (isOptSuccess) {
-                System.out.println("操作成功");
-            } else {
-                System.out.println("操作失败");
+                tip.print((isOptSuccess?"操作成功":"操作失败"));
             }
         } while (!command.matches("11"));
 
-        System.out.println("程序正在退出中，请勿关闭程序");
-        if (DataStore.getQg().store()) {
-            System.out.println("已保存文件!");
-        } else {
-            System.out.println("保存文件出错!");
-        }
-
+        tip.print("程序正在退出中，请勿关闭程序");
+        // 保存修改的行星数据
+        DataStore.getQg().store();
         System.exit(0);
     }
 }

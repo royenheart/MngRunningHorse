@@ -1,0 +1,20 @@
+{
+  "name": "NIHAO",
+  "desc": "Nothing At ALl",
+  "size": 1,
+  "ctys": [
+    {
+      "name": "TEST",
+      "code": "TE",
+      "sats": [
+        {
+          "name": "WOAINI",
+          "cosparid": "TE1221",
+          "distance": 34.5,
+          "disValue": 234.3,
+          "used": true
+        }
+      ]
+    }
+  ]
+}

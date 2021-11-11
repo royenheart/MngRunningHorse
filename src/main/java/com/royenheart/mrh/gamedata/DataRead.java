@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.royenheart.mrh.existence.Planet;
 import com.royenheart.mrh.existence.Universe;
+import com.royenheart.mrh.sysio.SysOutErr;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,10 +23,13 @@ import java.nio.file.Path;
  */
 public class DataRead {
 
-    // 单例设计模式，一次游戏只允许一个LoadGame
+    private SysOutErr err;
+
+    // 单例设计模式，一次游戏只允许一个DataRead
 
     private static final DataRead LD = new DataRead();
     private DataRead() {
+        err = new SysOutErr();
     }
     public static DataRead getLd() {
         return LD;
@@ -54,10 +58,9 @@ public class DataRead {
                     Planet plt = gson.fromJson(reader, Planet.class);
                     Universe.getMng().addPlt(plt);
                 } catch (JsonSyntaxException e) {
-                    System.out.println(f.getName() + ":json格式错误，已跳过" );
+                    err.print(f.getName() + ":json格式错误，已跳过", e);
                 }
             }
         }
     }
-
 }
