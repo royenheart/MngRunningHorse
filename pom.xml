@@ -6,7 +6,7 @@
 
     <groupId>com.royenheart</groupId>
     <artifactId>MngRunningHorse</artifactId>
-    <version>Alpha</version>
+    <version>v1.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

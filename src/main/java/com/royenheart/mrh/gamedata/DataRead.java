@@ -67,12 +67,17 @@ public class DataRead {
             if (f.isFile() && f.getName().matches(".*.json")) {
                 Path fp = f.toPath();
                 Reader reader = Files.newBufferedReader(fp, StandardCharsets.UTF_8);
+                if (f.length() <= 0) {
+                    err.print(f.getName()+":文件内容为空，已跳过", new Exception("json文件为空"));
+                    break;
+                }
                 try {
                     Planet plt = gson.fromJson(reader, Planet.class);
                     Universe.getMng().addPlt(plt);
                 } catch (JsonSyntaxException e) {
                     err.print(f.getName() + ":json格式错误，已跳过", e);
                 }
+                reader.close();
             }
         }
     }
