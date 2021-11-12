@@ -45,7 +45,6 @@ public class CheckParam {
      * @return 返回错误信息
      */
     public String checkSatName(String value) {
-
         if (value.isEmpty()) {
             return "err: 名字为空，";
         } else if (value.length() > Satellite.MAX_NAME_LENGTH) {
@@ -115,7 +114,6 @@ public class CheckParam {
      * @return 返回错误状态
      */
     public String checkSatCos(String value) {
-
         if (value.isEmpty()) {
             return "err: 输入为空，请输入非空合法cosparid";
         } else if (value.length() != 6) {
@@ -159,7 +157,6 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkCtyName(String param) {
-
         if (param.isEmpty()) {
             return "err: 国家名字为空，";
         } else if (param.length() > Country.MAX_NAME_LENGTH) {
@@ -177,7 +174,6 @@ public class CheckParam {
      * @return 错误状态
      */
     public String checkCtyCode(String param) {
-
         if (param.isEmpty()) {
             return "err: 编号为空，";
         } else if (!param.matches("[A-Za-z]{2}")) {

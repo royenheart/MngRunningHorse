@@ -1,6 +1,66 @@
 {
   "name": "HelloWorld",
-  "desc": "The First Thing You Need to do, you know, is to happily play this game",
+  "desc": "一个居住着飞马星人的行星，现在它们正在太空开疆拓土，故事自此开始",
   "size": 255,
-  "ctys": []
+  "ctys": [
+    {
+      "name": "HOLA",
+      "code": "AA",
+      "sats": [
+        {
+          "name": "ManKind",
+          "cosparid": "AA1011",
+          "distance": 1.2,
+          "disValue": 343.0,
+          "used": true
+        },
+        {
+          "name": "LordEarth",
+          "cosparid": "AA2233",
+          "distance": 3.5,
+          "disValue": 432.0,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "GrantBlue",
+      "code": "AB",
+      "sats": [
+        {
+          "name": "DeepSea",
+          "cosparid": "AB2101",
+          "distance": 1.5,
+          "disValue": 322.0,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "Skadi",
+      "code": "CS",
+      "sats": [
+        {
+          "name": "玛丽亚",
+          "cosparid": "CS1010",
+          "distance": 1.99,
+          "disValue": 4.0,
+          "used": true
+        }
+      ]
+    },
+    {
+      "name": "WatchDog",
+      "code": "NL",
+      "sats": [
+        {
+          "name": "UniTime",
+          "cosparid": "NL3242",
+          "distance": 1.78,
+          "disValue": 45.0,
+          "used": true
+        }
+      ]
+    }
+  ]
 }
